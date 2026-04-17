@@ -108,25 +108,36 @@ export function Sidebar() {
       </aside>
 
       {/* Mobile hamburger */}
-      <button
-        type="button"
-        onClick={() => setMobileOpen(true)}
-        className="lg:hidden fixed top-3 left-3 z-50 p-2 rounded-lg bg-navy-800 text-white shadow-lg"
-      >
-        <Menu className="w-5 h-5" />
-      </button>
+      {!mobileOpen && (
+        <button
+          type="button"
+          onClick={() => setMobileOpen(true)}
+          className="lg:hidden fixed top-3 left-3 z-40 p-2.5 rounded-lg bg-navy-800 text-white shadow-lg active:scale-95 transition-transform"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+      )}
 
       {/* Mobile overlay */}
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-50 flex">
-          <div className="w-72 bg-navy-800 shadow-2xl relative">{nav}</div>
+          <div className="w-72 max-w-[85vw] bg-navy-800 shadow-2xl relative flex flex-col">
+            {/* Close button inside sidebar */}
+            <button
+              type="button"
+              onClick={() => setMobileOpen(false)}
+              className="absolute top-4 right-3 p-2 rounded-lg hover:bg-navy-700 text-navy-300 z-10"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            {nav}
+          </div>
           <button
             type="button"
             onClick={() => setMobileOpen(false)}
             className="flex-1 bg-black/50"
-          >
-            <X className="w-6 h-6 text-white absolute top-4 right-4" />
-          </button>
+            aria-label="Cerrar menú"
+          />
         </div>
       )}
     </>

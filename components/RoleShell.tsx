@@ -101,31 +101,31 @@ export function RoleShell({ roleKey }: { roleKey: RoleKey }) {
     <div className="relative">
       <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-6">
-          <div className="text-xs font-semibold uppercase tracking-[0.12em] text-accent-500 mb-1">
+        <div className="mb-5 sm:mb-6">
+          <div className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] text-accent-500 mb-1">
             Vista por rol · {role.label}
           </div>
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-navy-700 flex items-center justify-center text-sm font-bold text-white">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-navy-700 flex items-center justify-center text-xs sm:text-sm font-bold text-white shrink-0">
               {initials}
             </div>
-            <div>
-              <h1 className="font-display text-2xl sm:text-3xl font-semibold text-navy-900">
+            <div className="min-w-0">
+              <h1 className="font-display text-xl sm:text-2xl md:text-3xl font-semibold text-navy-900 truncate">
                 {role.persona}
               </h1>
-              <p className="text-sm text-slate-500">{role.description}</p>
+              <p className="text-xs sm:text-sm text-slate-500 line-clamp-2">{role.description}</p>
             </div>
           </div>
         </div>
 
         {/* KPI strip */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 mb-6 sm:mb-8">
           {role.kpis.map((kpi) => (
-            <div key={kpi.label} className="bg-white rounded-xl border border-slate-200 p-4">
-              <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-400 mb-1">
+            <div key={kpi.label} className="bg-white rounded-xl border border-slate-200 p-3 sm:p-4">
+              <div className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wide text-slate-400 mb-1 truncate">
                 {kpi.label}
               </div>
-              <div className="font-display text-2xl font-semibold text-navy-900">{kpi.value}</div>
+              <div className="font-display text-xl sm:text-2xl font-semibold text-navy-900">{kpi.value}</div>
               {kpi.trend && (
                 <div className={`text-xs mt-1 ${
                   kpi.trendDirection === "up" || kpi.trendDirection === "down"
@@ -139,22 +139,24 @@ export function RoleShell({ roleKey }: { roleKey: RoleKey }) {
           ))}
         </div>
 
-        {/* Tabs */}
-        <div className="flex items-center gap-1 mb-6 bg-slate-100 rounded-lg p-1 w-fit overflow-x-auto">
-          {tabs.map((tab) => (
-            <button
-              key={tab.key}
-              type="button"
-              onClick={() => setActiveTab(tab.key)}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                activeTab === tab.key
-                  ? "bg-white text-navy-900 shadow-sm"
-                  : "text-slate-500 hover:text-slate-700"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+        {/* Tabs — scrollable on mobile */}
+        <div className="overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0 mb-6">
+          <div className="flex items-center gap-1 bg-slate-100 rounded-lg p-1 w-fit">
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                type="button"
+                onClick={() => setActiveTab(tab.key)}
+                className={`px-3 sm:px-4 py-2 rounded-md text-[13px] sm:text-sm font-medium transition-colors whitespace-nowrap ${
+                  activeTab === tab.key
+                    ? "bg-white text-navy-900 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Main content: 2-column layout — content left, copilot right */}
@@ -206,7 +208,7 @@ export function RoleShell({ roleKey }: { roleKey: RoleKey }) {
 
           {/* Right: Copilot panel (1/3 width) — always visible */}
           <div className="lg:col-span-1">
-            <div className="sticky top-20 rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-sm">
+            <div className="lg:sticky lg:top-20 rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-sm">
               {/* Copilot header */}
               <div className="bg-navy-800 text-white p-4">
                 <div className="flex items-center gap-2 mb-1">
@@ -339,8 +341,8 @@ export function RoleShell({ roleKey }: { roleKey: RoleKey }) {
       {/* Detail drawer */}
       {drawerItem && (
         <div className="fixed inset-0 z-50 flex justify-end">
-          <button type="button" onClick={() => setDrawerItem(null)} className="flex-1 bg-black/30" />
-          <div className="w-full max-w-md bg-white shadow-2xl p-6 overflow-y-auto">
+          <button type="button" onClick={() => setDrawerItem(null)} className="hidden sm:block flex-1 bg-black/30" />
+          <div className="w-full sm:max-w-md bg-white shadow-2xl p-4 sm:p-6 overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-display text-lg font-semibold text-navy-900">Detalle</h3>
               <button type="button" onClick={() => setDrawerItem(null)} className="p-1.5 rounded-lg hover:bg-slate-100">

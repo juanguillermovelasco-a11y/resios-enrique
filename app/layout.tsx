@@ -2,6 +2,14 @@ import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
 import { Topbar } from "@/components/Topbar";
 
+import type { Viewport } from "next";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export const metadata = {
   title: "ResiOS — Roadmap Enrique",
   description: "Piloto 90 días para Clínica CITA · Enrique Criado",

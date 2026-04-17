@@ -6,7 +6,7 @@ export function Topbar() {
   return (
     <header className="sticky top-0 z-30 bg-white border-b border-slate-200 px-4 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between h-14">
-        <div className="lg:hidden w-10" />
+        <div className="lg:hidden w-12" />
 
         <div className="hidden sm:flex items-center gap-2 text-[11px] text-slate-500">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 live-dot" />

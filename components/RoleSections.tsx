@@ -74,13 +74,13 @@ export function OcupacionMapa() {
                   {occupied}/{floor.beds.length} ({pct}%)
                 </span>
               </div>
-              <div className="grid grid-cols-9 sm:grid-cols-12 lg:grid-cols-18 gap-1.5">
+              <div className="grid grid-cols-5 sm:grid-cols-9 md:grid-cols-12 lg:grid-cols-18 gap-1">
                 {floor.beds.map((bed) => (
-                  <div key={bed.id} className={`group relative rounded-lg h-10 flex items-center justify-center text-[9px] font-medium text-white cursor-default ${bedColor[bed.status]} ${bed.status === "available" ? "ring-2 ring-emerald-300 ring-offset-1" : ""}`}
+                  <div key={bed.id} className={`group relative rounded-md sm:rounded-lg h-8 sm:h-10 flex items-center justify-center text-[8px] sm:text-[9px] font-medium text-white cursor-default ${bedColor[bed.status]} ${bed.status === "available" ? "ring-2 ring-emerald-300 ring-offset-1" : ""}`}
                     title={bed.patient ? `${bed.id}: ${bed.patient} (${bed.phase}, día ${bed.daysSinceAdmission})` : `${bed.id}: ${bedLabel[bed.status]}`}>
                     {bed.id}
                     {bed.patient && (
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-10 w-44 bg-navy-900 text-white rounded-lg p-2.5 shadow-lg pointer-events-none">
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden sm:group-hover:block z-10 w-44 bg-navy-900 text-white rounded-lg p-2.5 shadow-lg pointer-events-none">
                         <div className="text-[10px] font-semibold">{bed.patient}</div>
                         <div className="text-[9px] text-navy-300">{bed.phase} · Día {bed.daysSinceAdmission}</div>
                       </div>
@@ -240,10 +240,10 @@ export function FinanzasCobros() {
   return (
     <div className="space-y-5">
       <Section title="Cuentas por cobrar — aging">
-        <div className="grid grid-cols-4 gap-3 mb-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
           {receivablesAging.map((b) => (
             <div key={b.bucket} className="text-center">
-              <div className="text-2xl font-display font-semibold text-navy-900">{b.amount}k</div>
+              <div className="text-xl sm:text-2xl font-display font-semibold text-navy-900">{b.amount}k</div>
               <div className="text-[10px] font-semibold mt-1" style={{ color: b.color }}>{b.bucket}</div>
               <div className="text-[10px] text-slate-400">{b.count} facturas</div>
               <div className="mt-2 h-2 rounded-full bg-slate-100 overflow-hidden"><div className="h-full rounded-full" style={{ width: `${(b.amount / 180) * 100}%`, backgroundColor: b.color }} /></div>
@@ -318,7 +318,7 @@ export function CrecimientoPipeline() {
         <div className="space-y-2">
           {pipelineFunnel.map((stage, i) => (
             <div key={stage.stage} className="flex items-center gap-3">
-              <div className="w-36 text-right text-xs text-slate-600 shrink-0">{stage.stage}</div>
+              <div className="w-20 sm:w-36 text-right text-[10px] sm:text-xs text-slate-600 shrink-0">{stage.stage}</div>
               <div className="flex-1 relative"><div className="h-9 rounded-lg bg-slate-100 overflow-hidden"><div className="h-full rounded-lg flex items-center justify-end px-3" style={{ width: `${(stage.count / maxCount) * 100}%`, backgroundColor: `rgba(30, 39, 97, ${1 - i * 0.15})` }}><span className="text-[11px] font-semibold text-white">{stage.count}</span></div></div></div>
               <div className="w-16 text-right"><div className="text-xs font-semibold text-navy-900">{stage.value}k€</div><div className="text-[9px] text-slate-400">{stage.conversion}</div></div>
             </div>
@@ -391,12 +391,12 @@ export function CrecimientoScoring() {
                 {l.score}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-0.5">
+                <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5 flex-wrap">
                   <span className="text-xs font-semibold text-navy-900">{l.name}</span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">{l.stage}</span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">{l.clinic}</span>
+                  <span className="text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">{l.stage}</span>
+                  <span className="text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">{l.clinic}</span>
                 </div>
-                <div className="text-[11px] text-slate-500">{l.signal}</div>
+                <div className="text-[10px] sm:text-[11px] text-slate-500 line-clamp-1">{l.signal}</div>
               </div>
               <div className="text-right shrink-0">
                 <div className="text-xs font-semibold text-navy-900">{l.value}k€/mes</div>
@@ -429,10 +429,10 @@ export function BackofficeAutomatizacion() {
             <Legend iconSize={8} wrapperStyle={{ fontSize: 10 }} />
           </BarChart>
         </ResponsiveContainer>
-        <div className="mt-3 grid grid-cols-3 gap-3">
-          <div className="bg-navy-50 rounded-lg p-3 text-center"><div className="text-lg font-display font-semibold text-navy-900">9</div><div className="text-[10px] text-slate-500">FTEs antes</div></div>
-          <div className="bg-emerald-50 rounded-lg p-3 text-center"><div className="text-lg font-display font-semibold text-emerald-700">4.2</div><div className="text-[10px] text-slate-500">FTEs después</div></div>
-          <div className="bg-accent-50 rounded-lg p-3 text-center"><div className="text-lg font-display font-semibold text-accent-600">-53%</div><div className="text-[10px] text-slate-500">Reducción</div></div>
+        <div className="mt-3 grid grid-cols-3 gap-2 sm:gap-3">
+          <div className="bg-navy-50 rounded-lg p-2.5 sm:p-3 text-center"><div className="text-base sm:text-lg font-display font-semibold text-navy-900">9</div><div className="text-[9px] sm:text-[10px] text-slate-500">FTEs antes</div></div>
+          <div className="bg-emerald-50 rounded-lg p-2.5 sm:p-3 text-center"><div className="text-base sm:text-lg font-display font-semibold text-emerald-700">4.2</div><div className="text-[9px] sm:text-[10px] text-slate-500">FTEs después</div></div>
+          <div className="bg-accent-50 rounded-lg p-2.5 sm:p-3 text-center"><div className="text-base sm:text-lg font-display font-semibold text-accent-600">-53%</div><div className="text-[9px] sm:text-[10px] text-slate-500">Reducción</div></div>
         </div>
       </Section>
       <Section title="Automatización por proceso">
@@ -596,8 +596,8 @@ export function MulticlinicaExpansion() {
             <div key={t.name} className="flex items-center gap-3 p-3 rounded-lg border border-slate-100 hover:border-slate-200 transition-colors">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0 ${t.fit >= 80 ? "bg-emerald-500" : t.fit >= 70 ? "bg-amber-500" : "bg-slate-400"}`}>{t.fit}</div>
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-0.5"><span className="text-xs font-semibold text-navy-900">{t.name}</span><span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">{t.city}</span><span className="text-[10px] px-1.5 py-0.5 rounded bg-blue-100 text-blue-700">{t.stage}</span></div>
-                <div className="text-[10px] text-slate-500">{t.beds} camas · EBITDA {t.ebitda} · {t.multiple}</div>
+                <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5 flex-wrap"><span className="text-xs font-semibold text-navy-900">{t.name}</span><span className="text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">{t.city}</span><span className="text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded bg-blue-100 text-blue-700">{t.stage}</span></div>
+                <div className="text-[9px] sm:text-[10px] text-slate-500">{t.beds} camas · EBITDA {t.ebitda} · {t.multiple}</div>
               </div>
               <div className="text-right shrink-0"><div className="text-xs font-semibold text-navy-900">{t.askingPrice}</div><div className="text-[10px] text-slate-400">asking</div></div>
             </div>
