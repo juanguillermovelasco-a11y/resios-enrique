@@ -422,10 +422,11 @@ export function BackofficeFacturacion() {
           <ComposedChart data={invoicingSummary}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
             <XAxis dataKey="month" tick={{ fontSize: 10 }} />
-            <YAxis tick={{ fontSize: 10 }} />
+            <YAxis yAxisId="left" tick={{ fontSize: 10 }} />
+            <YAxis yAxisId="right" orientation="right" domain={[70, 100]} tick={{ fontSize: 10 }} unit="%" />
             <Tooltip contentStyle={{ fontSize: 11 }} />
-            <Bar dataKey="issued" fill="#1E2761" radius={[4, 4, 0, 0]} name="Emitidas" />
-            <Bar dataKey="collected" fill="#10b981" radius={[4, 4, 0, 0]} name="Cobradas" />
+            <Bar dataKey="issued" yAxisId="left" fill="#1E2761" radius={[4, 4, 0, 0]} name="Emitidas" />
+            <Bar dataKey="collected" yAxisId="left" fill="#10b981" radius={[4, 4, 0, 0]} name="Cobradas" />
             <Line type="monotone" dataKey="rate" stroke="#F5A623" strokeWidth={2} dot={{ r: 3 }} name="% Cobro" yAxisId="right" />
             <Legend iconSize={8} wrapperStyle={{ fontSize: 10 }} />
           </ComposedChart>
