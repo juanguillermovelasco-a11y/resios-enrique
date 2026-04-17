@@ -697,6 +697,218 @@ export const consolidatedPL = [
   { line: "EBITDA", bcn: 89, mlg: 19, total: 108 },
 ];
 
+// OCUPACIÓN: Movimientos programados
+export interface Movement {
+  day: string;
+  type: "ingreso" | "alta" | "traslado";
+  patient: string;
+  clinic: string;
+  room: string;
+  detail: string;
+}
+
+export const movements: Movement[] = [
+  { day: "Lunes", type: "ingreso", patient: "Nuevo paciente (García)", clinic: "BCN", room: "203", detail: "Pre-assessment completado. Adicción alcohol. Programa 90 días." },
+  { day: "Miércoles", type: "ingreso", patient: "Nuevo paciente (Ruiz)", clinic: "BCN", room: "302", detail: "Derivación Hospital Clínic. Dual diagnosis. Dieta sin lactosa." },
+  { day: "Jueves", type: "ingreso", patient: "Nuevo paciente (López)", clinic: "MLG", room: "N-05", detail: "Lead web. Adicción sustancias. Familia en Málaga." },
+  { day: "Viernes", type: "alta", patient: "Navarro E.", clinic: "BCN", room: "110", detail: "Fase 4/4 completada. Plan ambulatorio preparado. Seguimiento semanal." },
+  { day: "Viernes", type: "traslado", patient: "Domínguez S.", clinic: "BCN", room: "111→205", detail: "Solicitud de habitación individual aprobada. Traslado programado 10:00." },
+  { day: "Próx. lunes", type: "alta", patient: "Álvarez N.", clinic: "BCN", room: "205", detail: "Fase 4 completa. Alta condicionada a evaluación final del viernes." },
+  { day: "Próx. martes", type: "ingreso", patient: "Pendiente confirmar", clinic: "MLG", room: "S-03", detail: "Lead en negociación. 80% probabilidad cierre. Scoring AI alto." },
+];
+
+// OCUPACIÓN: Patients by phase
+export const patientsByPhase = [
+  { phase: "Fase 1 — Desintoxicación", bcn: 8, mlg: 5, avgDays: 18, color: "#ef4444" },
+  { phase: "Fase 2 — Estabilización", bcn: 12, mlg: 8, avgDays: 32, color: "#f59e0b" },
+  { phase: "Fase 3 — Rehabilitación", bcn: 10, mlg: 9, avgDays: 28, color: "#3b82f6" },
+  { phase: "Fase 4 — Reinserción", bcn: 5, mlg: 3, avgDays: 15, color: "#10b981" },
+];
+
+// FINANZAS: Cobros tracker
+export interface Invoice {
+  id: string;
+  family: string;
+  amount: number;
+  dueDate: string;
+  status: "paid" | "pending" | "overdue" | "partial";
+  daysOverdue?: number;
+  clinic: string;
+}
+
+export const invoices: Invoice[] = [
+  { id: "F-2026-0412", family: "Familia García M.", amount: 4800, dueDate: "15 Abr", status: "paid", clinic: "BCN" },
+  { id: "F-2026-0413", family: "Familia López R.", amount: 5200, dueDate: "15 Abr", status: "paid", clinic: "BCN" },
+  { id: "F-2026-0398", family: "Familia Torres C.", amount: 4800, dueDate: "01 Abr", status: "pending", daysOverdue: 0, clinic: "BCN" },
+  { id: "F-2026-0385", family: "Familia Rodríguez", amount: 18000, dueDate: "12 Mar", status: "overdue", daysOverdue: 36, clinic: "BCN" },
+  { id: "F-2026-0388", family: "Familia Martín P.", amount: 12500, dueDate: "15 Mar", status: "overdue", daysOverdue: 33, clinic: "BCN" },
+  { id: "F-2026-0391", family: "Familia Sánchez L.", amount: 11500, dueDate: "18 Mar", status: "overdue", daysOverdue: 30, clinic: "MLG" },
+  { id: "F-2026-0401", family: "Familia Ramos J.", amount: 4800, dueDate: "01 Abr", status: "partial", daysOverdue: 0, clinic: "MLG" },
+  { id: "F-2026-0415", family: "Familia Flores L.", amount: 5200, dueDate: "15 Abr", status: "pending", clinic: "MLG" },
+];
+
+// FINANZAS: Margin breakdown
+export const marginBreakdown = [
+  { category: "Estancia residencial", revenue: 480, cost: 180, margin: 62.5 },
+  { category: "Programa terapéutico", revenue: 120, cost: 85, margin: 29.2 },
+  { category: "Servicios médicos", revenue: 50, cost: 35, margin: 30 },
+  { category: "Farmacia", revenue: 20, cost: 15, margin: 25 },
+  { category: "Extras (hab. individual)", revenue: 10, cost: 2, margin: 80 },
+];
+
+// CRECIMIENTO: Lead scoring
+export interface ScoredLead {
+  name: string;
+  score: number;
+  source: string;
+  stage: string;
+  value: number;
+  daysInPipeline: number;
+  clinic: string;
+  signal: string;
+}
+
+export const scoredLeads: ScoredLead[] = [
+  { name: "Familia García", score: 92, source: "Derivación", stage: "Negociación", value: 20, daysInPipeline: 12, clinic: "BCN", signal: "Contacto directo con director clínico. Decisión esta semana." },
+  { name: "Familia Ruiz", score: 87, source: "Web", stage: "Negociación", value: 20, daysInPipeline: 18, clinic: "BCN", signal: "3 visitas al centro. Pre-assessment positivo." },
+  { name: "María L.", score: 84, source: "Web", stage: "Propuesta", value: 20, daysInPipeline: 8, clinic: "MLG", signal: "Alta urgencia. Familiar llamó 3 veces." },
+  { name: "Familia Ortega", score: 81, source: "Google Ads", stage: "Propuesta", value: 20, daysInPipeline: 14, clinic: "BCN", signal: "Comparando con 2 competidores. Precio sensible." },
+  { name: "Dr. Martínez (ref)", score: 78, source: "Derivación", stage: "Evaluación", value: 20, daysInPipeline: 5, clinic: "MLG", signal: "Derivación Hospital Regional. Dual diagnosis." },
+  { name: "Familia Vega", score: 65, source: "RRSS", stage: "Evaluación", value: 20, daysInPipeline: 22, clinic: "BCN", signal: "Engagement bajo. Necesita nurturing." },
+  { name: "Pedro S.", score: 52, source: "Web", stage: "Primer contacto", value: 20, daysInPipeline: 3, clinic: "MLG", signal: "Solo formulario web. Sin respuesta a llamada." },
+  { name: "Consulta anónima", score: 35, source: "Teléfono", stage: "Primer contacto", value: 20, daysInPipeline: 1, clinic: "BCN", signal: "Llamada informativa. No dejó datos completos." },
+];
+
+// CRECIMIENTO: Channel ROI
+export const channelROI = [
+  { channel: "Derivación clínica", leads: 11, closed: 5, revenue: 100, cac: 0, ltv: 72, roi: "∞" },
+  { channel: "Web orgánico", leads: 14, closed: 3, revenue: 60, cac: 2.1, ltv: 72, roi: "34x" },
+  { channel: "Google Ads", leads: 8, closed: 1, revenue: 20, cac: 4.8, ltv: 72, roi: "15x" },
+  { channel: "Referral familiar", leads: 9, closed: 2, revenue: 40, cac: 0.5, ltv: 72, roi: "144x" },
+  { channel: "Redes sociales", leads: 5, closed: 0, revenue: 0, cac: 1.2, ltv: 72, roi: "—" },
+];
+
+// BACKOFFICE: Shift coverage
+export interface Shift {
+  day: string;
+  morning: { covered: number; needed: number };
+  afternoon: { covered: number; needed: number };
+  night: { covered: number; needed: number };
+  clinic: string;
+}
+
+export const shiftCoverage: Shift[] = [
+  { day: "Lun", morning: { covered: 4, needed: 4 }, afternoon: { covered: 3, needed: 3 }, night: { covered: 2, needed: 2 }, clinic: "BCN" },
+  { day: "Mar", morning: { covered: 4, needed: 4 }, afternoon: { covered: 3, needed: 3 }, night: { covered: 2, needed: 2 }, clinic: "BCN" },
+  { day: "Mié", morning: { covered: 4, needed: 4 }, afternoon: { covered: 3, needed: 3 }, night: { covered: 2, needed: 2 }, clinic: "BCN" },
+  { day: "Jue", morning: { covered: 4, needed: 4 }, afternoon: { covered: 3, needed: 3 }, night: { covered: 2, needed: 2 }, clinic: "BCN" },
+  { day: "Vie", morning: { covered: 4, needed: 4 }, afternoon: { covered: 2, needed: 3 }, night: { covered: 2, needed: 2 }, clinic: "BCN" },
+  { day: "Sáb", morning: { covered: 3, needed: 3 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 2, needed: 2 }, clinic: "BCN" },
+  { day: "Dom", morning: { covered: 3, needed: 3 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 2, needed: 2 }, clinic: "BCN" },
+  { day: "Lun", morning: { covered: 3, needed: 3 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 2, needed: 2 }, clinic: "MLG" },
+  { day: "Mar", morning: { covered: 3, needed: 3 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 2, needed: 2 }, clinic: "MLG" },
+  { day: "Mié", morning: { covered: 3, needed: 3 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 2, needed: 2 }, clinic: "MLG" },
+  { day: "Jue", morning: { covered: 3, needed: 3 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 2, needed: 2 }, clinic: "MLG" },
+  { day: "Vie", morning: { covered: 3, needed: 3 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 2, needed: 2 }, clinic: "MLG" },
+  { day: "Sáb", morning: { covered: 2, needed: 2 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 1, needed: 2 }, clinic: "MLG" },
+  { day: "Dom", morning: { covered: 2, needed: 2 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 2, needed: 2 }, clinic: "MLG" },
+];
+
+// BACKOFFICE: Compliance tracker
+export interface ComplianceItem {
+  item: string;
+  responsible: string;
+  deadline: string;
+  status: "ok" | "warning" | "expired";
+  clinic: string;
+}
+
+export const complianceTracker: ComplianceItem[] = [
+  { item: "Licencia actividad sanitaria", responsible: "Dirección", deadline: "Dic 2026", status: "ok", clinic: "BCN" },
+  { item: "Seguro responsabilidad civil", responsible: "Legal", deadline: "Sep 2026", status: "ok", clinic: "BCN" },
+  { item: "Certificación primeros auxilios — Lucía H.", responsible: "RRHH", deadline: "15 May 2026", status: "warning", clinic: "BCN" },
+  { item: "Certificación primeros auxilios — Pedro M.", responsible: "RRHH", deadline: "18 May 2026", status: "warning", clinic: "BCN" },
+  { item: "Certificación primeros auxilios — Ana G.", responsible: "RRHH", deadline: "20 May 2026", status: "warning", clinic: "MLG" },
+  { item: "Inspección sanitaria anual", responsible: "Dirección", deadline: "Jun 2026", status: "ok", clinic: "MLG" },
+  { item: "Protección de datos (RGPD) — auditoría", responsible: "Legal", deadline: "Jul 2026", status: "ok", clinic: "Grupo" },
+  { item: "Plan de emergencia — simulacro", responsible: "Mantenimiento", deadline: "May 2026", status: "ok", clinic: "BCN" },
+  { item: "Revisión extintores", responsible: "Mantenimiento", deadline: "02 Abr 2026", status: "expired", clinic: "MLG" },
+];
+
+// MULTICLINICA: Expansion pipeline
+export interface AcquisitionTarget {
+  name: string;
+  city: string;
+  beds: number;
+  askingPrice: string;
+  ebitda: string;
+  multiple: string;
+  stage: "Research" | "Due diligence" | "Negociación" | "LOI firmada";
+  fit: number; // 0-100
+}
+
+export const acquisitionPipeline: AcquisitionTarget[] = [
+  { name: "Clínica Alhambra", city: "Granada", beds: 28, askingPrice: "7.2M€", ebitda: "14%", multiple: "9.5x", stage: "Due diligence", fit: 82 },
+  { name: "Centro Marbella", city: "Marbella", beds: 45, askingPrice: "11M€", ebitda: "19%", multiple: "8.2x", stage: "Due diligence", fit: 78 },
+  { name: "Residencial Levante", city: "Valencia", beds: 32, askingPrice: "8.5M€", ebitda: "12%", multiple: "10x", stage: "Research", fit: 65 },
+  { name: "Clínica Retiro", city: "Madrid", beds: 55, askingPrice: "18M€", ebitda: "22%", multiple: "7.8x", stage: "Research", fit: 71 },
+];
+
+// MULTICLINICA: VCP milestones
+export interface VCPMilestone {
+  milestone: string;
+  target: string;
+  actual: string;
+  status: "ahead" | "on-track" | "behind";
+  quarter: string;
+}
+
+export const vcpMilestones: VCPMilestone[] = [
+  { milestone: "Ocupación grupo > 80%", target: "80%", actual: "81%", status: "ahead", quarter: "Q2 2026" },
+  { milestone: "EBITDA consolidado > 18%", target: "18%", actual: "18.7%", status: "ahead", quarter: "Q2 2026" },
+  { milestone: "ResiOS operativo 2 clínicas", target: "2", actual: "1 + onboarding", status: "on-track", quarter: "Q2 2026" },
+  { milestone: "FTEs back office < 4/clínica", target: "4", actual: "4.2", status: "on-track", quarter: "Q3 2026" },
+  { milestone: "3ª clínica adquirida", target: "1", actual: "DD en 2", status: "on-track", quarter: "Q4 2026" },
+  { milestone: "Ocupación grupo > 88%", target: "88%", actual: "—", status: "behind", quarter: "Q1 2027" },
+  { milestone: "EBITDA consolidado > 24%", target: "24%", actual: "—", status: "behind", quarter: "Q2 2027" },
+  { milestone: "Exit readiness", target: "12x EBITDA", actual: "—", status: "behind", quarter: "Q4 2028" },
+];
+
+// ─── Tabs config per role ────────────────────────────────────────
+
+export const roleTabs: Record<RoleKey, { key: string; label: string }[]> = {
+  ocupacion: [
+    { key: "resumen", label: "Resumen" },
+    { key: "mapa", label: "Mapa de camas" },
+    { key: "tendencias", label: "Tendencias" },
+    { key: "movimientos", label: "Movimientos" },
+  ],
+  finanzas: [
+    { key: "resumen", label: "Resumen" },
+    { key: "ingresos", label: "Ingresos" },
+    { key: "cobros", label: "Cobros" },
+    { key: "cashflow", label: "Cash flow" },
+  ],
+  crecimiento: [
+    { key: "resumen", label: "Resumen" },
+    { key: "pipeline", label: "Pipeline" },
+    { key: "canales", label: "Canales" },
+    { key: "scoring", label: "Scoring AI" },
+  ],
+  backoffice: [
+    { key: "resumen", label: "Resumen" },
+    { key: "automatizacion", label: "Automatización" },
+    { key: "turnos", label: "Turnos" },
+    { key: "compliance", label: "Compliance" },
+  ],
+  "gestion-multiclinica": [
+    { key: "resumen", label: "Resumen" },
+    { key: "comparativa", label: "Comparativa" },
+    { key: "pl", label: "P&L" },
+    { key: "expansion", label: "Expansión" },
+  ],
+};
+
 // ─── Chart data ──────────────────────────────────────────────────
 
 export const weeklyForecast = [

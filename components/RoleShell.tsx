@@ -15,21 +15,31 @@ import {
   Zap,
   Send,
 } from "lucide-react";
-import { roleViews, copilotByRole, type RoleKey, type BlockItem } from "@/lib/mock-data";
+import { roleViews, copilotByRole, roleTabs, type RoleKey, type BlockItem } from "@/lib/mock-data";
 import {
-  OcupacionSections,
-  FinanzasSections,
-  CrecimientoSections,
-  BackofficeSections,
-  MulticlinicaSections,
+  OcupacionMapa, OcupacionTendencias, OcupacionMovimientos,
+  FinanzasIngresos, FinanzasCobros, FinanzasCashflow,
+  CrecimientoPipeline, CrecimientoCanales, CrecimientoScoring,
+  BackofficeAutomatizacion, BackofficeTurnos, BackofficeCompliance,
+  MulticlinicaComparativa, MulticlinicaPL, MulticlinicaExpansion,
 } from "@/components/RoleSections";
 
-const sectionComponents: Record<RoleKey, React.ComponentType> = {
-  ocupacion: OcupacionSections,
-  finanzas: FinanzasSections,
-  crecimiento: CrecimientoSections,
-  backoffice: BackofficeSections,
-  "gestion-multiclinica": MulticlinicaSections,
+const tabComponents: Record<string, React.ComponentType> = {
+  mapa: OcupacionMapa,
+  tendencias: OcupacionTendencias,
+  movimientos: OcupacionMovimientos,
+  ingresos: FinanzasIngresos,
+  cobros: FinanzasCobros,
+  cashflow: FinanzasCashflow,
+  pipeline: CrecimientoPipeline,
+  canales: CrecimientoCanales,
+  scoring: CrecimientoScoring,
+  automatizacion: BackofficeAutomatizacion,
+  turnos: BackofficeTurnos,
+  compliance: BackofficeCompliance,
+  comparativa: MulticlinicaComparativa,
+  pl: MulticlinicaPL,
+  expansion: MulticlinicaExpansion,
 };
 
 const iconMap: Record<string, React.ElementType> = {
@@ -70,9 +80,10 @@ export function RoleShell({ roleKey }: { roleKey: RoleKey }) {
   const [drawerItem, setDrawerItem] = useState<BlockItem | null>(null);
   const [copilotAnswer, setCopilotAnswer] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState("");
-  const [activeTab, setActiveTab] = useState<"resumen" | "analisis">("resumen");
+  const [activeTab, setActiveTab] = useState("resumen");
 
-  const SectionComponent = sectionComponents[roleKey];
+  const tabs = roleTabs[roleKey];
+  const TabContent = activeTab !== "resumen" ? tabComponents[activeTab] : null;
 
   const Icon = iconMap[role.icon] || Settings;
   const initials = role.persona
@@ -129,37 +140,29 @@ export function RoleShell({ roleKey }: { roleKey: RoleKey }) {
         </div>
 
         {/* Tabs */}
-        <div className="flex items-center gap-1 mb-6 bg-slate-100 rounded-lg p-1 w-fit">
-          <button
-            type="button"
-            onClick={() => setActiveTab("resumen")}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-              activeTab === "resumen"
-                ? "bg-white text-navy-900 shadow-sm"
-                : "text-slate-500 hover:text-slate-700"
-            }`}
-          >
-            Resumen
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab("analisis")}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-              activeTab === "analisis"
-                ? "bg-white text-navy-900 shadow-sm"
-                : "text-slate-500 hover:text-slate-700"
-            }`}
-          >
-            Análisis
-          </button>
+        <div className="flex items-center gap-1 mb-6 bg-slate-100 rounded-lg p-1 w-fit overflow-x-auto">
+          {tabs.map((tab) => (
+            <button
+              key={tab.key}
+              type="button"
+              onClick={() => setActiveTab(tab.key)}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
+                activeTab === tab.key
+                  ? "bg-white text-navy-900 shadow-sm"
+                  : "text-slate-500 hover:text-slate-700"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
 
         {/* Main content: 2-column layout — content left, copilot right */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left: Content (2/3 width) */}
           <div className="lg:col-span-2">
-            {activeTab === "analisis" ? (
-              <SectionComponent />
+            {TabContent ? (
+              <TabContent />
             ) : (
             <div className="space-y-6">
             {role.blocks.map((block) => (
