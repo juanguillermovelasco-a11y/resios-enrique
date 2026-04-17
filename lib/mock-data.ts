@@ -32,7 +32,7 @@ export const roadmapSteps: RoadmapStep[] = [
       "Integraciones iniciales: Google Workspace, Sage",
     ],
     icon: "Rocket",
-    status: "done",
+    status: "upcoming",
   },
   {
     number: "02",
@@ -48,7 +48,7 @@ export const roadmapSteps: RoadmapStep[] = [
       "92% precisión media, revisión humana del 8% restante",
     ],
     icon: "Database",
-    status: "done",
+    status: "upcoming",
   },
   {
     number: "03",
@@ -64,7 +64,7 @@ export const roadmapSteps: RoadmapStep[] = [
       "−6 hrs/semana por persona en tareas admin",
     ],
     icon: "Users",
-    status: "active",
+    status: "upcoming",
   },
   {
     number: "04",
@@ -237,6 +237,7 @@ export interface Block {
 export interface CopilotSuggestion {
   text: string;
   type: "alert" | "insight" | "action";
+  actions?: { label: string; variant: "primary" | "secondary" }[];
 }
 
 export interface CopilotQA {
@@ -522,11 +523,11 @@ export interface CopilotData {
 
 export const copilotByRole: Record<RoleKey, CopilotData> = {
   finanzas: {
-    greeting: "Hola Ana. Tienes 3 facturas vencidas por 42k€ pendientes de gestión.",
+    greeting: "Hola Ana, soy tu copiloto. Tengo el contexto de hoy en CITA. ¿En qué te ayudo?",
     suggestions: [
-      { text: "3 facturas vencidas > 30 días — 42k€ en riesgo de impago", type: "alert" },
-      { text: "Margen MLG por debajo de target: 14.8% vs 18% objetivo", type: "insight" },
-      { text: "Programar revisión de forecast con datos de pipeline actualizados", type: "action" },
+      { text: "Llamar al titular del paciente #4790. Vence hoy: 640€. 2 recordatorios automáticos sin respuesta. Si no se resuelve hoy, escala a Enrique mañana.", type: "alert", actions: [{ label: "Marcar llamada hecha", variant: "primary" }, { label: "Ver historial pagos", variant: "secondary" }] },
+      { text: "Asignar cobro 4.800€ a Familia Ramírez. 97% coincidencia: cobro recibido sin factura asignada. Confirmar y cierra el ciclo lead-cobro automáticamente.", type: "action", actions: [{ label: "Confirmar asignación", variant: "primary" }, { label: "Revisar manualmente", variant: "secondary" }] },
+      { text: "Margen MLG por debajo de target: 14.8% vs 18% objetivo. Coste de personal temporal inflando. Normaliza en S+3.", type: "insight" },
     ],
     suggestedQuestions: [
       "¿Cuál es el cash flow proyectado a 3 meses?",
@@ -539,11 +540,11 @@ export const copilotByRole: Record<RoleKey, CopilotData> = {
     ],
   },
   crecimiento: {
-    greeting: "Hola Marta. Tienes 3 leads hot sin contacto reciente y 2 decisiones de cierre esta semana.",
+    greeting: "Hola Marta, soy tu copiloto. Tienes 2 decisiones de cierre esta semana y 3 leads que necesitan atención urgente.",
     suggestions: [
-      { text: "3 leads sin contacto > 5 días — 62k€ pipeline en riesgo", type: "alert" },
-      { text: "Scoring AI: 4 leads con >80% probabilidad de cierre", type: "insight" },
-      { text: "Derivación Hospital Clínic: responder < 24h para mantener canal", type: "action" },
+      { text: "Lead Familia García lleva 6 días sin contacto — 20k€/mes en riesgo. Scoring AI: 87% probabilidad de cierre si contactas hoy.", type: "alert", actions: [{ label: "Agendar llamada", variant: "primary" }, { label: "Ver ficha en HubSpot", variant: "secondary" }] },
+      { text: "Derivación Hospital Clínic: 2 pacientes nuevos. Canal con 42% conversión. Respuesta necesaria antes de mañana para mantener el canal activo.", type: "action", actions: [{ label: "Preparar propuesta", variant: "primary" }, { label: "Ver historial derivaciones", variant: "secondary" }] },
+      { text: "Scoring AI: 4 leads con >80% probabilidad de cierre. Si cierras 3 de 6 en negociación, BCN llega a 90% ocupación en S+4.", type: "insight" },
     ],
     suggestedQuestions: [
       "¿Cómo va el pipeline por canal de adquisición?",
@@ -556,11 +557,11 @@ export const copilotByRole: Record<RoleKey, CopilotData> = {
     ],
   },
   ocupacion: {
-    greeting: "Hola Carlos. 15 camas disponibles hoy (8 BCN, 7 MLG). 3 ingresos confirmados esta semana.",
+    greeting: "Hola Carlos, soy tu copiloto. 15 camas disponibles hoy. 3 ingresos confirmados esta semana, 1 alta el viernes.",
     suggestions: [
-      { text: "Planta 3 BCN al 75% — por debajo de target 85%", type: "alert" },
-      { text: "MLG Ala Sur en ramp-up: 67% ocupación, target 83% en S+8", type: "insight" },
-      { text: "Solicitud de traslado interno pendiente: paciente → hab. 205", type: "action" },
+      { text: "Ingreso confirmado lunes (BCN): paciente pre-asignado a hab. 203 (Planta 2). Documentación completa, dietas especiales: sin gluten. Cocina ya notificada.", type: "action", actions: [{ label: "Confirmar asignación", variant: "primary" }, { label: "Cambiar habitación", variant: "secondary" }] },
+      { text: "Planta 3 BCN al 75% — 3 camas libres + 1 alta viernes = 4 libres. Pipeline tiene 2 candidatos. Sugerencia: priorizar ingresos en Planta 3.", type: "alert", actions: [{ label: "Ver candidatos pipeline", variant: "primary" }] },
+      { text: "MLG Ala Sur en ramp-up: 67% ocupación. Recomendación: concentrar ingresos en Ala Norte (89%) para reducir costes operativos.", type: "insight" },
     ],
     suggestedQuestions: [
       "¿Cuántas camas se liberan esta semana?",
@@ -573,11 +574,11 @@ export const copilotByRole: Record<RoleKey, CopilotData> = {
     ],
   },
   backoffice: {
-    greeting: "Hola Patricia. 73% de tareas automatizadas. 1 alerta de cobertura de turno para este sábado.",
+    greeting: "Hola Patricia, soy tu copiloto. 73% de tareas automatizadas. Tienes 1 alerta de cobertura urgente.",
     suggestions: [
-      { text: "Turno nocturno MLG sin cobertura completa (sábado)", type: "alert" },
-      { text: "3 certificaciones vencen en 30 días — 1 ya agendó renovación", type: "alert" },
-      { text: "Oportunidad: automatizar 2 procesos manuales restantes en admisiones", type: "action" },
+      { text: "Turno nocturno MLG sin cobertura completa (sábado). 1 enfermero de baja. Sugerencia: reasignar auxiliar de Ala Norte + notificar supervisora.", type: "alert", actions: [{ label: "Aplicar sugerencia", variant: "primary" }, { label: "Ver turnos completos", variant: "secondary" }] },
+      { text: "3 certificaciones de primeros auxilios vencen en 30 días. 1 ya agendó renovación. Enviar recordatorio a los 2 restantes.", type: "alert", actions: [{ label: "Enviar recordatorio", variant: "primary" }] },
+      { text: "Oportunidad: admisiones aún tiene 2 procesos manuales. Automatizarlos reduce 0.5 FTE adicional por clínica.", type: "action" },
     ],
     suggestedQuestions: [
       "¿Cuánto estamos ahorrando en FTEs este trimestre?",
@@ -590,11 +591,11 @@ export const copilotByRole: Record<RoleKey, CopilotData> = {
     ],
   },
   "gestion-multiclinica": {
-    greeting: "Buenos días, Enrique. El grupo opera a 81% ocupación, 680k€ revenue y 18.7% EBITDA.",
+    greeting: "Buenos días Enrique, soy tu copiloto. El grupo opera a 81% ocupación y 680k€ revenue. Tienes 2 temas que requieren tu atención.",
     suggestions: [
-      { text: "MLG Ala Sur al 67% — revisar estrategia de ramp-up", type: "alert" },
-      { text: "ROI ResiOS 4.2x anualizado — supera proyección original de 3x", type: "insight" },
-      { text: "Due diligence activa en 2 clínicas para próxima adquisición", type: "action" },
+      { text: "MLG Ala Sur al 67% — por debajo de plan. El equipo de crecimiento propone concentrar ingresos en Ala Norte primero. ¿Apruebas el cambio de estrategia?", type: "alert", actions: [{ label: "Aprobar cambio", variant: "primary" }, { label: "Pedir más datos", variant: "secondary" }] },
+      { text: "Due diligence activa en 2 clínicas (Andalucía). Informe preliminar listo para revisión. Ticket medio: 7-9M€.", type: "action", actions: [{ label: "Ver informe", variant: "primary" }, { label: "Agendar call con equipo", variant: "secondary" }] },
+      { text: "ROI ResiOS 4.2x anualizado — supera proyección original de 3x. Cada nueva clínica suma ~170k€/año en ahorro operativo.", type: "insight" },
     ],
     suggestedQuestions: [
       "¿Cuándo alcanza MLG el break-even operativo?",

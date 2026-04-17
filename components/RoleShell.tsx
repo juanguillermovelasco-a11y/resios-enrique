@@ -10,10 +10,10 @@ import {
   ChevronRight,
   X,
   Sparkles,
-  MessageSquare,
   AlertCircle,
   Lightbulb,
   Zap,
+  Send,
 } from "lucide-react";
 import { roleViews, copilotByRole, type RoleKey, type BlockItem } from "@/lib/mock-data";
 
@@ -37,18 +37,24 @@ const suggestionIcon: Record<string, React.ElementType> = {
   action: Zap,
 };
 
-const suggestionColor: Record<string, string> = {
-  alert: "text-rose-500 bg-rose-50",
-  insight: "text-blue-500 bg-blue-50",
-  action: "text-accent-500 bg-accent-50",
+const suggestionBorder: Record<string, string> = {
+  alert: "border-l-rose-500",
+  insight: "border-l-blue-500",
+  action: "border-l-accent-400",
+};
+
+const suggestionIconColor: Record<string, string> = {
+  alert: "text-rose-500",
+  insight: "text-blue-500",
+  action: "text-accent-500",
 };
 
 export function RoleShell({ roleKey }: { roleKey: RoleKey }) {
   const role = roleViews[roleKey];
   const copilot = copilotByRole[roleKey];
   const [drawerItem, setDrawerItem] = useState<BlockItem | null>(null);
-  const [copilotOpen, setCopilotOpen] = useState(false);
   const [copilotAnswer, setCopilotAnswer] = useState<string | null>(null);
+  const [inputValue, setInputValue] = useState("");
 
   const Icon = iconMap[role.icon] || Settings;
   const initials = role.persona
@@ -57,9 +63,14 @@ export function RoleShell({ roleKey }: { roleKey: RoleKey }) {
     .join("")
     .slice(0, 2);
 
+  const handleQuestion = (question: string) => {
+    const match = copilot.qa.find((qa) => qa.question === question);
+    if (match) setCopilotAnswer(match.answer);
+  };
+
   return (
     <div className="relative">
-      <div className="p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto">
+      <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6">
           <div className="text-xs font-semibold uppercase tracking-[0.12em] text-accent-500 mb-1">
@@ -81,26 +92,17 @@ export function RoleShell({ roleKey }: { roleKey: RoleKey }) {
         {/* KPI strip */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
           {role.kpis.map((kpi) => (
-            <div
-              key={kpi.label}
-              className="bg-white rounded-xl border border-slate-200 p-4"
-            >
+            <div key={kpi.label} className="bg-white rounded-xl border border-slate-200 p-4">
               <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-400 mb-1">
                 {kpi.label}
               </div>
-              <div className="font-display text-2xl font-semibold text-navy-900">
-                {kpi.value}
-              </div>
+              <div className="font-display text-2xl font-semibold text-navy-900">{kpi.value}</div>
               {kpi.trend && (
-                <div
-                  className={`text-xs mt-1 ${
-                    kpi.trendDirection === "up"
-                      ? "text-emerald-600"
-                      : kpi.trendDirection === "down"
-                      ? "text-emerald-600"
-                      : "text-slate-400"
-                  }`}
-                >
+                <div className={`text-xs mt-1 ${
+                  kpi.trendDirection === "up" || kpi.trendDirection === "down"
+                    ? "text-emerald-600"
+                    : "text-slate-400"
+                }`}>
                   {kpi.trend}
                 </div>
               )}
@@ -108,97 +110,194 @@ export function RoleShell({ roleKey }: { roleKey: RoleKey }) {
           ))}
         </div>
 
-        {/* Blocks */}
-        <div className="space-y-6 mb-8">
-          {role.blocks.map((block) => (
-            <div key={block.title}>
-              <h2 className="font-display text-lg font-semibold text-navy-900 mb-3">
-                {block.title}
-              </h2>
-              <div className="space-y-2">
-                {block.items.map((item, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => setDrawerItem(item)}
-                    className="w-full text-left bg-white rounded-xl border border-slate-200 p-4 hover:border-slate-300 hover:shadow-sm transition-all group"
-                  >
-                    <div className="flex items-start gap-3">
-                      <span
-                        className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${
-                          severityDot[item.severity || "normal"]
-                        }`}
-                      />
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium text-navy-900">
-                          {item.label}
+        {/* Main content: 2-column layout — blocks left, copilot right */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left: Blocks (2/3 width) */}
+          <div className="lg:col-span-2 space-y-6">
+            {role.blocks.map((block) => (
+              <div key={block.title}>
+                <h2 className="font-display text-lg font-semibold text-navy-900 mb-3">
+                  {block.title}
+                </h2>
+                <div className="space-y-2">
+                  {block.items.map((item, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => setDrawerItem(item)}
+                      className="w-full text-left bg-white rounded-xl border border-slate-200 p-4 hover:border-slate-300 hover:shadow-sm transition-all group"
+                    >
+                      <div className="flex items-start gap-3">
+                        <span className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${severityDot[item.severity || "normal"]}`} />
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-medium text-navy-900">{item.label}</div>
+                          <div className="text-xs text-slate-500 mt-0.5 line-clamp-1">{item.detail}</div>
+                          {item.tags && item.tags.length > 0 && (
+                            <div className="flex flex-wrap gap-1.5 mt-2">
+                              {item.tags.map((tag) => (
+                                <span key={tag} className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-navy-100 text-navy-600">
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          )}
                         </div>
-                        <div className="text-xs text-slate-500 mt-0.5 line-clamp-1">
-                          {item.detail}
-                        </div>
-                        {item.tags && item.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1.5 mt-2">
-                            {item.tags.map((tag) => (
-                              <span
-                                key={tag}
-                                className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-navy-100 text-navy-600"
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-                        )}
+                        <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-slate-500 mt-0.5 shrink-0" />
                       </div>
-                      <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-slate-500 mt-0.5 shrink-0" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Right: Copilot panel (1/3 width) — always visible */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-20 rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-sm">
+              {/* Copilot header */}
+              <div className="bg-navy-800 text-white p-4">
+                <div className="flex items-center gap-2 mb-1">
+                  <Sparkles className="w-4 h-4 text-accent" />
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-navy-300">Tu copiloto</span>
+                </div>
+                <h3 className="text-sm font-semibold">Sugerencias y preguntas</h3>
+              </div>
+
+              {/* Suggestions with action buttons */}
+              <div className="p-4 space-y-3 border-b border-slate-100">
+                {copilot.suggestions.map((s, i) => {
+                  const SIcon = suggestionIcon[s.type] || Sparkles;
+                  return (
+                    <div
+                      key={i}
+                      className={`border-l-[3px] ${suggestionBorder[s.type]} bg-white rounded-r-lg p-3`}
+                    >
+                      <div className="flex items-start gap-2 mb-2">
+                        <SIcon className={`w-4 h-4 mt-0.5 shrink-0 ${suggestionIconColor[s.type]}`} />
+                        <p className="text-xs text-slate-700 leading-relaxed">{s.text}</p>
+                      </div>
+                      {s.actions && s.actions.length > 0 && (
+                        <div className="flex flex-wrap gap-2 ml-6">
+                          {s.actions.map((action, j) => (
+                            <button
+                              key={j}
+                              type="button"
+                              className={`px-3 py-1.5 rounded-lg text-[11px] font-medium transition-colors ${
+                                action.variant === "primary"
+                                  ? "bg-navy-800 text-white hover:bg-navy-900"
+                                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                              }`}
+                            >
+                              {action.label}
+                            </button>
+                          ))}
+                        </div>
+                      )}
                     </div>
+                  );
+                })}
+              </div>
+
+              {/* Answer area */}
+              {copilotAnswer && (
+                <div className="p-4 border-b border-slate-100 bg-navy-50">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sparkles className="w-3.5 h-3.5 text-accent-500" />
+                    <span className="text-[10px] font-semibold uppercase tracking-wide text-navy-500">Respuesta</span>
+                  </div>
+                  <p className="text-xs text-slate-700 leading-relaxed">{copilotAnswer}</p>
+                  <button
+                    type="button"
+                    onClick={() => setCopilotAnswer(null)}
+                    className="text-[10px] text-slate-400 hover:text-slate-600 mt-2"
+                  >
+                    Cerrar
                   </button>
-                ))}
+                </div>
+              )}
+
+              {/* Conversational section */}
+              <div className="p-4">
+                <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400 mb-3">
+                  Pregúntame
+                </div>
+
+                {/* Greeting */}
+                <div className="bg-slate-50 rounded-lg p-3 mb-3">
+                  <p className="text-xs text-slate-600 leading-relaxed">{copilot.greeting}</p>
+                </div>
+
+                {/* Suggested questions */}
+                <div className="space-y-1 mb-3">
+                  {copilot.suggestedQuestions.map((q, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => handleQuestion(q)}
+                      className="w-full text-left text-xs text-navy-600 hover:text-accent-500 hover:bg-accent-50 rounded-lg px-3 py-2 transition-colors"
+                    >
+                      {q}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Input */}
+                <div className="flex items-center gap-2 mt-2">
+                  <input
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    placeholder="Escribe tu pregunta..."
+                    className="flex-1 text-xs border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-accent-400 focus:ring-1 focus:ring-accent-200"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && inputValue.trim()) {
+                        const match = copilot.qa.find((qa) =>
+                          qa.question.toLowerCase().includes(inputValue.toLowerCase().slice(0, 20))
+                        );
+                        if (match) setCopilotAnswer(match.answer);
+                        else setCopilotAnswer("Estoy procesando tu pregunta. En la versión completa, consultaré los datos en tiempo real para darte una respuesta contextualizada.");
+                        setInputValue("");
+                      }
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="p-2 rounded-lg bg-navy-800 text-white hover:bg-navy-900 transition-colors"
+                    onClick={() => {
+                      if (inputValue.trim()) {
+                        const match = copilot.qa.find((qa) =>
+                          qa.question.toLowerCase().includes(inputValue.toLowerCase().slice(0, 20))
+                        );
+                        if (match) setCopilotAnswer(match.answer);
+                        else setCopilotAnswer("Estoy procesando tu pregunta. En la versión completa, consultaré los datos en tiempo real para darte una respuesta contextualizada.");
+                        setInputValue("");
+                      }
+                    }}
+                  >
+                    <Send className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
             </div>
-          ))}
+          </div>
         </div>
-
-        {/* Copilot FAB */}
-        <button
-          type="button"
-          onClick={() => { setCopilotOpen(!copilotOpen); setCopilotAnswer(null); }}
-          className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-navy-700 text-white shadow-xl hover:bg-navy-800 transition-colors flex items-center justify-center"
-        >
-          {copilotOpen ? <X className="w-5 h-5" /> : <MessageSquare className="w-5 h-5" />}
-        </button>
       </div>
 
       {/* Detail drawer */}
       {drawerItem && (
         <div className="fixed inset-0 z-50 flex justify-end">
-          <button
-            type="button"
-            onClick={() => setDrawerItem(null)}
-            className="flex-1 bg-black/30"
-          />
+          <button type="button" onClick={() => setDrawerItem(null)} className="flex-1 bg-black/30" />
           <div className="w-full max-w-md bg-white shadow-2xl p-6 overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-display text-lg font-semibold text-navy-900">Detalle</h3>
-              <button
-                type="button"
-                onClick={() => setDrawerItem(null)}
-                className="p-1.5 rounded-lg hover:bg-slate-100"
-              >
+              <button type="button" onClick={() => setDrawerItem(null)} className="p-1.5 rounded-lg hover:bg-slate-100">
                 <X className="w-5 h-5 text-slate-400" />
               </button>
             </div>
             <div className="flex items-center gap-2 mb-3">
-              <span
-                className={`w-2.5 h-2.5 rounded-full ${
-                  severityDot[drawerItem.severity || "normal"]
-                }`}
-              />
+              <span className={`w-2.5 h-2.5 rounded-full ${severityDot[drawerItem.severity || "normal"]}`} />
               <span className="text-xs font-medium text-slate-500 uppercase">
-                {drawerItem.severity === "high"
-                  ? "Prioridad alta"
-                  : drawerItem.severity === "medium"
-                  ? "Atención"
-                  : "Normal"}
+                {drawerItem.severity === "high" ? "Prioridad alta" : drawerItem.severity === "medium" ? "Atención" : "Normal"}
               </span>
             </div>
             <h4 className="text-base font-semibold text-navy-900 mb-3">{drawerItem.label}</h4>
@@ -206,81 +305,12 @@ export function RoleShell({ roleKey }: { roleKey: RoleKey }) {
             {drawerItem.tags && (
               <div className="flex flex-wrap gap-1.5 mt-4">
                 {drawerItem.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2.5 py-1 rounded-full text-xs font-medium bg-navy-100 text-navy-600"
-                  >
+                  <span key={tag} className="px-2.5 py-1 rounded-full text-xs font-medium bg-navy-100 text-navy-600">
                     {tag}
                   </span>
                 ))}
               </div>
             )}
-          </div>
-        </div>
-      )}
-
-      {/* Copilot panel */}
-      {copilotOpen && (
-        <div className="fixed bottom-24 right-6 z-40 w-[360px] max-h-[70vh] bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden">
-          {/* Header */}
-          <div className="bg-navy-800 text-white p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Sparkles className="w-4 h-4 text-accent" />
-              <span className="text-sm font-semibold">Copiloto · {role.label}</span>
-            </div>
-            <p className="text-xs text-navy-200">{copilot.greeting}</p>
-          </div>
-
-          {/* Suggestions */}
-          <div className="p-4 border-b border-slate-100">
-            <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-400 mb-2">
-              Alertas e insights
-            </div>
-            <div className="space-y-2">
-              {copilot.suggestions.map((s, i) => {
-                const SIcon = suggestionIcon[s.type] || Sparkles;
-                return (
-                  <div
-                    key={i}
-                    className={`flex items-start gap-2.5 p-2.5 rounded-lg ${suggestionColor[s.type]}`}
-                  >
-                    <SIcon className="w-3.5 h-3.5 mt-0.5 shrink-0" />
-                    <span className="text-xs leading-relaxed">{s.text}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Answer area */}
-          {copilotAnswer && (
-            <div className="p-4 border-b border-slate-100 bg-slate-50">
-              <p className="text-sm text-slate-700 leading-relaxed">{copilotAnswer}</p>
-            </div>
-          )}
-
-          {/* Suggested questions */}
-          <div className="p-4 flex-1 overflow-y-auto">
-            <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-400 mb-2">
-              Preguntas sugeridas
-            </div>
-            <div className="space-y-1.5">
-              {copilot.suggestedQuestions.map((q, i) => {
-                const matchingQA = copilot.qa.find((qa) => qa.question === q);
-                return (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => {
-                      if (matchingQA) setCopilotAnswer(matchingQA.answer);
-                    }}
-                    className="w-full text-left text-xs text-navy-700 hover:text-accent-500 hover:bg-accent-50 rounded-lg px-3 py-2 transition-colors"
-                  >
-                    {q}
-                  </button>
-                );
-              })}
-            </div>
           </div>
         </div>
       )}

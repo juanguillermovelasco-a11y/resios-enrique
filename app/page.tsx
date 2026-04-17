@@ -17,14 +17,20 @@ export default function RoadmapPage() {
       {/* Header */}
       <div className="mb-8">
         <div className="text-xs font-semibold uppercase tracking-[0.12em] text-accent-500 mb-1">
-          Piloto CITA
+          Roadmap 90 días
         </div>
         <h1 className="font-display text-3xl sm:text-4xl font-semibold text-navy-900 mb-2">
-          Roadmap a 90 días
+          Piloto ResiOS en CITA
         </h1>
-        <p className="text-sm text-slate-500 max-w-2xl">
-          9 fases para tener ResiOS operando en las clínicas del grupo.
-          Haz click en cada paso para ver descripción y entregables.
+        <p className="text-[15px] text-slate-600 max-w-3xl leading-relaxed">
+          <strong className="text-navy-900">Objetivo:</strong> desplegar inteligencia artificial en las funciones
+          críticas de Clínica CITA — finanzas, ocupación, crecimiento y back office — como
+          plataforma de despliegue replicable para las demás clínicas del grupo.
+        </p>
+        <p className="text-[15px] text-slate-600 max-w-3xl leading-relaxed mt-2">
+          <strong className="text-navy-900">Meta julio 2026:</strong> tener operativos los módulos de finanzas
+          y gestión de ocupación con IA funcionando en CITA, validando el modelo antes de
+          escalar a Barcelona y las futuras adquisiciones.
         </p>
       </div>
 
