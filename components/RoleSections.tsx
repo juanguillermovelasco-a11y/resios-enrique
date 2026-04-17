@@ -8,7 +8,7 @@ import {
   bedMap, occupancyTrend, occupancyForecast, movements, patientsByPhase,
   revenueVsPlan, receivablesAging, cashFlow, weeklyForecast, invoices, marginBreakdown,
   pipelineFunnel, leadsBySource, conversionTrend, scoredLeads, channelROI,
-  fteComparison, automationByProcess, savingsOverTime, shiftCoverage, complianceTracker,
+  invoicingSummary, supplierPayments, payrollByDept, payrollTrend, teamBreakdown,
   clinicComparison, consolidatedPL, acquisitionPipeline, vcpMilestones,
   type BedStatus,
 } from "@/lib/mock-data";
@@ -40,8 +40,8 @@ const moveColor = { ingreso: "text-emerald-600 bg-emerald-50", alta: "text-blue-
 const moveLabel = { ingreso: "Ingreso", alta: "Alta", traslado: "Traslado" };
 const invoiceColor = { paid: "bg-emerald-100 text-emerald-700", pending: "bg-amber-100 text-amber-700", overdue: "bg-rose-100 text-rose-700", partial: "bg-blue-100 text-blue-700" };
 const invoiceLabel = { paid: "Pagada", pending: "Pendiente", overdue: "Vencida", partial: "Parcial" };
-const compColor = { ok: "text-emerald-600", warning: "text-amber-600", expired: "text-rose-600" };
-const compIcon = { ok: CheckCircle2, warning: Clock, expired: AlertTriangle };
+const paymentColor = { paid: "bg-emerald-100 text-emerald-700", pending: "bg-amber-100 text-amber-700", overdue: "bg-rose-100 text-rose-700" };
+const paymentLabel = { paid: "Pagado", pending: "Pendiente", overdue: "Vencido" };
 const vcpColor = { ahead: "bg-emerald-100 text-emerald-700", "on-track": "bg-blue-100 text-blue-700", behind: "bg-slate-100 text-slate-500" };
 
 // ═══════════════════════════════════════════════════════════════════
@@ -414,109 +414,153 @@ export function CrecimientoScoring() {
 // BACK OFFICE
 // ═══════════════════════════════════════════════════════════════════
 
-export function BackofficeAutomatizacion() {
+export function BackofficeFacturacion() {
   return (
     <div className="space-y-5">
-      <Section title="FTEs por departamento — antes vs después">
+      <Section title="Evolución facturación mensual">
         <ResponsiveContainer width="100%" height={240}>
-          <BarChart data={fteComparison} layout="vertical">
-            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-            <XAxis type="number" tick={{ fontSize: 10 }} />
-            <YAxis dataKey="dept" type="category" tick={{ fontSize: 10 }} width={80} />
-            <Tooltip contentStyle={{ fontSize: 11 }} />
-            <Bar dataKey="before" fill="#cbd5e1" radius={[0, 4, 4, 0]} name="Antes" />
-            <Bar dataKey="after" fill="#1E2761" radius={[0, 4, 4, 0]} name="Con ResiOS" />
-            <Legend iconSize={8} wrapperStyle={{ fontSize: 10 }} />
-          </BarChart>
-        </ResponsiveContainer>
-        <div className="mt-3 grid grid-cols-3 gap-2 sm:gap-3">
-          <div className="bg-navy-50 rounded-lg p-2.5 sm:p-3 text-center"><div className="text-base sm:text-lg font-display font-semibold text-navy-900">9</div><div className="text-[9px] sm:text-[10px] text-slate-500">FTEs antes</div></div>
-          <div className="bg-emerald-50 rounded-lg p-2.5 sm:p-3 text-center"><div className="text-base sm:text-lg font-display font-semibold text-emerald-700">4.2</div><div className="text-[9px] sm:text-[10px] text-slate-500">FTEs después</div></div>
-          <div className="bg-accent-50 rounded-lg p-2.5 sm:p-3 text-center"><div className="text-base sm:text-lg font-display font-semibold text-accent-600">-53%</div><div className="text-[9px] sm:text-[10px] text-slate-500">Reducción</div></div>
-        </div>
-      </Section>
-      <Section title="Automatización por proceso">
-        <div className="space-y-3">
-          {automationByProcess.map((p) => (
-            <div key={p.process}><div className="flex items-center justify-between mb-1"><span className="text-xs font-medium text-navy-900">{p.process}</span><span className="text-xs font-semibold text-emerald-600">{p.automated}%</span></div><div className="h-2.5 rounded-full bg-slate-100 overflow-hidden flex"><div className="h-full bg-emerald-500 rounded-l-full" style={{ width: `${p.automated}%` }} /><div className="h-full bg-rose-300 rounded-r-full" style={{ width: `${p.manual}%` }} /></div></div>
-          ))}
-        </div>
-      </Section>
-      <Section title="Ahorro acumulado (k€/mes)">
-        <ResponsiveContainer width="100%" height={200}>
-          <AreaChart data={savingsOverTime}>
+          <ComposedChart data={invoicingSummary}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
             <XAxis dataKey="month" tick={{ fontSize: 10 }} />
             <YAxis tick={{ fontSize: 10 }} />
             <Tooltip contentStyle={{ fontSize: 11 }} />
-            <Area type="monotone" dataKey="savings" fill="#10b981" fillOpacity={0.2} stroke="#10b981" strokeWidth={2} name="Ahorro k€" />
-          </AreaChart>
+            <Bar dataKey="issued" fill="#1E2761" radius={[4, 4, 0, 0]} name="Emitidas" />
+            <Bar dataKey="collected" fill="#10b981" radius={[4, 4, 0, 0]} name="Cobradas" />
+            <Line type="monotone" dataKey="rate" stroke="#F5A623" strokeWidth={2} dot={{ r: 3 }} name="% Cobro" yAxisId="right" />
+            <Legend iconSize={8} wrapperStyle={{ fontSize: 10 }} />
+          </ComposedChart>
         </ResponsiveContainer>
+        <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <div className="bg-navy-50 rounded-lg p-2.5 text-center"><div className="text-lg font-display font-semibold text-navy-900">62</div><div className="text-[9px] text-slate-500">Emitidas</div></div>
+          <div className="bg-emerald-50 rounded-lg p-2.5 text-center"><div className="text-lg font-display font-semibold text-emerald-700">52</div><div className="text-[9px] text-slate-500">Cobradas</div></div>
+          <div className="bg-amber-50 rounded-lg p-2.5 text-center"><div className="text-lg font-display font-semibold text-amber-700">7</div><div className="text-[9px] text-slate-500">Pendientes</div></div>
+          <div className="bg-rose-50 rounded-lg p-2.5 text-center"><div className="text-lg font-display font-semibold text-rose-700">3</div><div className="text-[9px] text-slate-500">Vencidas</div></div>
+        </div>
+      </Section>
+      <Section title="Pagos a proveedores">
+        <div className="space-y-1.5">
+          {supplierPayments.map((p, i) => (
+            <div key={i} className="flex items-center gap-3 p-3 rounded-lg border border-slate-100 hover:border-slate-200 transition-colors">
+              <span className={`px-2 py-0.5 rounded text-[10px] font-semibold shrink-0 ${paymentColor[p.status]}`}>{paymentLabel[p.status]}</span>
+              <div className="flex-1 min-w-0">
+                <div className="text-xs font-medium text-navy-900">{p.supplier}</div>
+                <div className="text-[10px] text-slate-400">{p.category} · {p.clinic} · Vence {p.dueDate}</div>
+              </div>
+              <div className="text-right shrink-0">
+                <div className="text-xs font-semibold text-navy-900">{p.amount.toLocaleString()}€</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-3 grid grid-cols-3 gap-2">
+          <div className="bg-emerald-50 rounded-lg p-2.5 text-center border border-emerald-100"><div className="text-base font-display font-semibold text-emerald-700">{supplierPayments.filter((p) => p.status === "paid").reduce((a, p) => a + p.amount, 0).toLocaleString()}€</div><div className="text-[9px] text-emerald-600">Pagados</div></div>
+          <div className="bg-amber-50 rounded-lg p-2.5 text-center border border-amber-100"><div className="text-base font-display font-semibold text-amber-700">{supplierPayments.filter((p) => p.status === "pending").reduce((a, p) => a + p.amount, 0).toLocaleString()}€</div><div className="text-[9px] text-amber-600">Pendientes</div></div>
+          <div className="bg-rose-50 rounded-lg p-2.5 text-center border border-rose-100"><div className="text-base font-display font-semibold text-rose-700">{supplierPayments.filter((p) => p.status === "overdue").reduce((a, p) => a + p.amount, 0).toLocaleString()}€</div><div className="text-[9px] text-rose-600">Vencidos</div></div>
+        </div>
       </Section>
     </div>
   );
 }
 
-export function BackofficeTurnos() {
+export function BackofficeNomina() {
   return (
     <div className="space-y-5">
-      {["BCN", "MLG"].map((clinic) => (
-        <Section key={clinic} title={`Cobertura de turnos — ${clinic === "BCN" ? "Barcelona" : "Málaga"}`}>
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs">
-              <thead><tr className="border-b border-slate-200"><th className="py-2 px-2 text-left text-slate-400 font-semibold">Día</th><th className="py-2 px-2 text-center text-slate-400 font-semibold">Mañana</th><th className="py-2 px-2 text-center text-slate-400 font-semibold">Tarde</th><th className="py-2 px-2 text-center text-slate-400 font-semibold">Noche</th></tr></thead>
-              <tbody>
-                {shiftCoverage.filter((s) => s.clinic === clinic).map((s, i) => (
-                  <tr key={i} className="border-b border-slate-100">
-                    <td className="py-2 px-2 font-medium text-navy-900">{s.day}</td>
-                    {[s.morning, s.afternoon, s.night].map((shift, j) => {
-                      const ok = shift.covered >= shift.needed;
-                      return (
-                        <td key={j} className="py-2 px-2 text-center">
-                          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold ${ok ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"}`}>
-                            {shift.covered}/{shift.needed}
-                          </span>
-                        </td>
-                      );
-                    })}
+      <Section title="Evolución coste nómina mensual (k€)">
+        <ResponsiveContainer width="100%" height={240}>
+          <ComposedChart data={payrollTrend}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+            <XAxis dataKey="month" tick={{ fontSize: 10 }} />
+            <YAxis tick={{ fontSize: 10 }} />
+            <Tooltip contentStyle={{ fontSize: 11 }} />
+            <Bar dataKey="bcn" stackId="a" fill="#1E2761" radius={[0, 0, 0, 0]} name="BCN" />
+            <Bar dataKey="mlg" stackId="a" fill="#F5A623" radius={[4, 4, 0, 0]} name="MLG" />
+            <Line type="monotone" dataKey="total" stroke="#ef4444" strokeWidth={2} dot={{ r: 3 }} name="Total" />
+            <Legend iconSize={8} wrapperStyle={{ fontSize: 10 }} />
+          </ComposedChart>
+        </ResponsiveContainer>
+      </Section>
+      <Section title="Nómina por departamento — abril">
+        {["BCN", "MLG"].map((clinic) => (
+          <div key={clinic} className="mb-5 last:mb-0">
+            <div className="text-xs font-semibold text-navy-800 mb-2">{clinic === "BCN" ? "Barcelona" : "Málaga"}</div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs">
+                <thead><tr className="border-b border-slate-200"><th className="text-left py-2 px-2 text-slate-400 font-semibold">Departamento</th><th className="text-right py-2 px-2 text-slate-400 font-semibold">FTEs</th><th className="text-right py-2 px-2 text-slate-400 font-semibold">Coste (k€)</th><th className="text-right py-2 px-2 text-slate-400 font-semibold">€/FTE (k)</th></tr></thead>
+                <tbody>
+                  {payrollByDept.filter((p) => p.clinic === clinic).map((p) => (
+                    <tr key={p.dept + clinic} className="border-b border-slate-100">
+                      <td className="py-2 px-2 font-medium text-navy-900">{p.dept}</td>
+                      <td className="py-2 px-2 text-right">{p.headcount}</td>
+                      <td className="py-2 px-2 text-right font-semibold">{p.monthlyCost}</td>
+                      <td className="py-2 px-2 text-right text-slate-500">{p.costPerFTE}</td>
+                    </tr>
+                  ))}
+                  <tr className="bg-navy-50 font-semibold">
+                    <td className="py-2 px-2 text-navy-900">Total</td>
+                    <td className="py-2 px-2 text-right">{payrollByDept.filter((p) => p.clinic === clinic).reduce((a, p) => a + p.headcount, 0)}</td>
+                    <td className="py-2 px-2 text-right">{payrollByDept.filter((p) => p.clinic === clinic).reduce((a, p) => a + p.monthlyCost, 0)}k€</td>
+                    <td className="py-2 px-2 text-right text-slate-500">—</td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </Section>
-      ))}
-      <div className="p-3 bg-rose-50 rounded-lg border border-rose-100">
-        <div className="text-xs text-rose-700 font-medium">1 gap detectado: Viernes tarde BCN (2/3) + Sábado noche MLG (1/2)</div>
+        ))}
+      </Section>
+      <div className="grid grid-cols-2 gap-3">
+        <div className="bg-navy-50 rounded-lg p-3 border border-navy-100"><div className="text-[10px] font-semibold text-navy-500 uppercase">Ratio personal/ingresos BCN</div><div className="text-lg font-display font-semibold text-navy-900">39%</div><div className="text-[9px] text-emerald-600">✓ En target (40%)</div></div>
+        <div className="bg-amber-50 rounded-lg p-3 border border-amber-100"><div className="text-[10px] font-semibold text-amber-600 uppercase">Ratio personal/ingresos MLG</div><div className="text-lg font-display font-semibold text-navy-900">48%</div><div className="text-[9px] text-amber-600">↑ Por encima (target 40%)</div></div>
       </div>
     </div>
   );
 }
 
-export function BackofficeCompliance() {
+export function BackofficeEquipo() {
+  const totalBCN = teamBreakdown.reduce((a, t) => a + t.bcn, 0);
+  const totalMLG = teamBreakdown.reduce((a, t) => a + t.mlg, 0);
   return (
     <div className="space-y-5">
-      <Section title="Tracker de compliance y certificaciones">
-        <div className="space-y-1.5">
-          {complianceTracker.map((c, i) => {
-            const Icon = compIcon[c.status];
-            return (
-              <div key={i} className="flex items-center gap-3 p-3 rounded-lg border border-slate-100">
-                <Icon className={`w-4 h-4 shrink-0 ${compColor[c.status]}`} />
-                <div className="flex-1 min-w-0">
-                  <div className="text-xs font-medium text-navy-900">{c.item}</div>
-                  <div className="text-[10px] text-slate-400">{c.responsible} · {c.clinic}</div>
-                </div>
-                <span className={`text-[10px] font-semibold shrink-0 ${compColor[c.status]}`}>{c.deadline}</span>
-              </div>
-            );
-          })}
+      <Section title="Distribución del equipo por rol">
+        <ResponsiveContainer width="100%" height={240}>
+          <BarChart data={teamBreakdown}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+            <XAxis dataKey="role" tick={{ fontSize: 9 }} />
+            <YAxis tick={{ fontSize: 10 }} />
+            <Tooltip contentStyle={{ fontSize: 11 }} />
+            <Bar dataKey="bcn" fill="#1E2761" radius={[4, 4, 0, 0]} name="BCN" />
+            <Bar dataKey="mlg" fill="#F5A623" radius={[4, 4, 0, 0]} name="MLG" />
+            <Legend iconSize={8} wrapperStyle={{ fontSize: 10 }} />
+          </BarChart>
+        </ResponsiveContainer>
+      </Section>
+      <Section title="Headcount por clínica">
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs">
+            <thead><tr className="border-b border-slate-200"><th className="text-left py-2 px-3 text-slate-400 font-semibold">Rol</th><th className="text-right py-2 px-3 text-navy-600 font-semibold">BCN</th><th className="text-right py-2 px-3 text-accent-600 font-semibold">MLG</th><th className="text-right py-2 px-3 text-slate-700 font-semibold">Total</th></tr></thead>
+            <tbody>
+              {teamBreakdown.map((t) => (
+                <tr key={t.role} className="border-b border-slate-100">
+                  <td className="py-2.5 px-3 font-medium text-navy-900">{t.role}</td>
+                  <td className="py-2.5 px-3 text-right">{t.bcn}</td>
+                  <td className="py-2.5 px-3 text-right">{t.mlg}</td>
+                  <td className="py-2.5 px-3 text-right font-semibold">{t.total}</td>
+                </tr>
+              ))}
+              <tr className="bg-navy-50 font-semibold">
+                <td className="py-2.5 px-3 text-navy-900">Total</td>
+                <td className="py-2.5 px-3 text-right">{totalBCN}</td>
+                <td className="py-2.5 px-3 text-right">{totalMLG}</td>
+                <td className="py-2.5 px-3 text-right">{totalBCN + totalMLG}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </Section>
-      <div className="grid grid-cols-3 gap-3">
-        <div className="bg-emerald-50 rounded-xl p-4 text-center border border-emerald-100"><div className="text-2xl font-display font-semibold text-emerald-700">{complianceTracker.filter((c) => c.status === "ok").length}</div><div className="text-[10px] text-emerald-600 font-medium">Al día</div></div>
-        <div className="bg-amber-50 rounded-xl p-4 text-center border border-amber-100"><div className="text-2xl font-display font-semibold text-amber-700">{complianceTracker.filter((c) => c.status === "warning").length}</div><div className="text-[10px] text-amber-600 font-medium">Próximos</div></div>
-        <div className="bg-rose-50 rounded-xl p-4 text-center border border-rose-100"><div className="text-2xl font-display font-semibold text-rose-700">{complianceTracker.filter((c) => c.status === "expired").length}</div><div className="text-[10px] text-rose-600 font-medium">Vencido</div></div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <div className="bg-navy-50 rounded-lg p-3 text-center"><div className="text-xl font-display font-semibold text-navy-900">{totalBCN}</div><div className="text-[9px] text-slate-500">FTEs BCN</div></div>
+        <div className="bg-accent-50 rounded-lg p-3 text-center"><div className="text-xl font-display font-semibold text-accent-600">{totalMLG}</div><div className="text-[9px] text-slate-500">FTEs MLG</div></div>
+        <div className="bg-amber-50 rounded-lg p-3 text-center"><div className="text-xl font-display font-semibold text-amber-700">1</div><div className="text-[9px] text-amber-600">Baja activa</div></div>
+        <div className="bg-blue-50 rounded-lg p-3 text-center"><div className="text-xl font-display font-semibold text-blue-700">1</div><div className="text-[9px] text-blue-600">Vacante abierta</div></div>
       </div>
     </div>
   );

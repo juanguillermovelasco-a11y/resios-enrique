@@ -264,36 +264,36 @@ export const roleViews: Record<RoleKey, RoleView> = {
     personaRole: "Directora Financiera",
     icon: "DollarSign",
     description:
-      "Control financiero integrado con Sage ERP. Forecast semanal, márgenes por clínica, cash flow proyectado y reconciliación bancaria automática.",
+      "Control financiero del grupo. Ingresos, márgenes por clínica, cash flow, cobros y gestión de tesorería. Reporting mensual con Sage.",
     kpis: [
       { label: "Ingresos mes (grupo)", value: "680k €", trend: "+8.4% vs plan", trendDirection: "up" },
       { label: "Margen EBITDA", value: "18.7%", trend: "+2.1pp vs Q anterior", trendDirection: "up" },
-      { label: "DSO (días cobro)", value: "34 días", trend: "−9 días con Open Banking", trendDirection: "down" },
+      { label: "DSO (días cobro)", value: "34 días", trend: "Target: <30 días", trendDirection: "neutral" },
       { label: "Cash runway", value: "14 meses", trend: "Estable", trendDirection: "neutral" },
     ],
     blocks: [
       {
         title: "Forecast semanal — próximas 4 semanas",
         items: [
-          { label: "S+1: 172k € proyectados", detail: "Base: 165k real S-1 + 3 ingresos confirmados pipeline", severity: "normal" },
+          { label: "S+1: 172k € proyectados", detail: "Base: 165k real S-1 + 3 ingresos confirmados por crecimiento", severity: "normal" },
           { label: "S+2: 168k € proyectados", detail: "2 altas programadas reducen ingreso recurrente, 1 ingreso nuevo", severity: "medium" },
-          { label: "S+3: 178k € proyectados", detail: "Pipeline HubSpot: 4 leads hot stage, conversión esperada 34%", severity: "normal" },
+          { label: "S+3: 178k € proyectados", detail: "4 leads en fase avanzada en HubSpot, conversión esperada 34%", severity: "normal" },
           { label: "S+4: 170k € proyectados", detail: "Baseline estable, sin movimientos grandes conocidos", severity: "normal" },
         ],
       },
       {
         title: "Márgenes por clínica",
         items: [
-          { label: "BCN Diagonal: 21.3% EBITDA", detail: "420k ingresos · 331k costes · margen mejorando +1.2pp", severity: "normal", tags: ["Barcelona"] },
-          { label: "MLG Costa del Sol: 14.8% EBITDA", detail: "260k ingresos · 221k costes · en ramp-up, margen esperado 18% en S+8", severity: "medium", tags: ["Málaga"] },
+          { label: "BCN Diagonal: 21.3% EBITDA", detail: "420k ingresos · 331k costes · margen mejorando +1.2pp vs trimestre anterior", severity: "normal", tags: ["Barcelona"] },
+          { label: "MLG Costa del Sol: 14.8% EBITDA", detail: "260k ingresos · 221k costes · en ramp-up, target 18% cuando ocupación suba a 85%", severity: "medium", tags: ["Málaga"] },
         ],
       },
       {
         title: "Alertas financieras",
         items: [
-          { label: "3 facturas vencidas > 30 días — 42k €", detail: "Familias Rodríguez, Martín y Sánchez. Sage ha enviado 2º recordatorio, Open Banking sin movimiento", severity: "high" },
-          { label: "Coste personal MLG 12% sobre budget", detail: "Onboarding requirió refuerzo temporal. Normaliza en S+3 cuando reduce a plantilla target", severity: "medium" },
-          { label: "Reconciliación bancaria BBVA: 94% auto", detail: "12 de 198 movimientos requieren matching manual. Mostly transferencias con concepto incorrecto", severity: "normal" },
+          { label: "3 facturas vencidas > 30 días — 42k €", detail: "Familias Rodríguez (18k€, 36d), Martín (12.5k€, 33d) y Sánchez (11.5k€, 30d). 2º recordatorio enviado", severity: "high" },
+          { label: "Coste personal MLG 12% sobre budget", detail: "Refuerzo temporal por baja de enfermero. Normaliza en 3 semanas cuando se reincorpore", severity: "medium" },
+          { label: "Reconciliación bancaria BBVA pendiente", detail: "12 de 198 movimientos de marzo sin conciliar. Mayoritariamente transferencias con concepto incorrecto. Requiere revisión manual", severity: "normal" },
         ],
       },
     ],
@@ -306,36 +306,36 @@ export const roleViews: Record<RoleKey, RoleView> = {
     personaRole: "Directora de Crecimiento",
     icon: "TrendingUp",
     description:
-      "Pipeline comercial conectado a HubSpot. Cada lead vale ~20K€/mes. Conversión, tiempo medio a ingreso, forecast de ocupación basado en pipeline activo.",
+      "Pipeline comercial con HubSpot. Gestión de leads, canales de derivación, conversión a ingreso y forecast de ocupación basado en pipeline activo.",
     kpis: [
       { label: "Pipeline activo", value: "1.2M €", trend: "+12% vs mes anterior", trendDirection: "up" },
-      { label: "Leads en HubSpot", value: "47", trend: "28 hot, 19 warm", trendDirection: "neutral" },
+      { label: "Leads en HubSpot", value: "47", trend: "28 calientes, 19 templados", trendDirection: "neutral" },
       { label: "Conversión lead → ingreso", value: "34%", trend: "+2pp vs mes anterior", trendDirection: "up" },
-      { label: "Tiempo medio a ingreso", value: "18 días", trend: "−3 días con scoring AI", trendDirection: "down" },
+      { label: "Tiempo medio a ingreso", value: "18 días", trend: "−3 días vs trimestre anterior", trendDirection: "down" },
     ],
     blocks: [
       {
         title: "Pipeline por etapa — HubSpot",
         items: [
           { label: "Primer contacto: 19 leads", detail: "Fuentes: web 8, derivación clínica 6, referral familiar 5", severity: "normal", tags: ["Top funnel"] },
-          { label: "Evaluación clínica: 14 leads", detail: "Pre-assessment completado. 9 addiction, 3 dual diagnosis, 2 eating disorder", severity: "normal", tags: ["Mid funnel"] },
+          { label: "Evaluación clínica: 14 leads", detail: "Pre-assessment completado. 9 adicción, 3 diagnóstico dual, 2 TCA", severity: "normal", tags: ["Mid funnel"] },
           { label: "Propuesta enviada: 8 leads", detail: "Revenue potencial: 160k€/mes. Tiempo medio en stage: 5.2 días", severity: "normal", tags: ["Bottom funnel"] },
-          { label: "Negociación/cierre: 6 leads", detail: "4 para BCN (3 camas dispo), 2 para MLG (5 camas dispo). 2 con decisión esta semana", severity: "normal", tags: ["Closing"] },
+          { label: "Negociación/cierre: 6 leads", detail: "4 para BCN (3 camas disponibles), 2 para MLG (5 camas disponibles). 2 con decisión esta semana", severity: "normal", tags: ["Closing"] },
         ],
       },
       {
         title: "Forecast de ocupación — próximas 4 semanas",
         items: [
-          { label: "BCN: 84% → 90% proyectado (S+4)", detail: "3 ingresos pipeline + 1 alta programada = +2 camas netas. Capacidad: 42 camas", severity: "normal", tags: ["Barcelona"] },
-          { label: "MLG: 78% → 86% proyectado (S+4)", detail: "2 ingresos pipeline + 0 altas = +2 netos. Capacidad: 36 camas", severity: "normal", tags: ["Málaga"] },
+          { label: "BCN: 84% → 90% proyectado (S+4)", detail: "3 ingresos probables del pipeline + 1 alta programada = +2 camas netas. Capacidad: 42 camas", severity: "normal", tags: ["Barcelona"] },
+          { label: "MLG: 78% → 86% proyectado (S+4)", detail: "2 ingresos probables del pipeline + 0 altas = +2 netos. Capacidad: 36 camas", severity: "normal", tags: ["Málaga"] },
         ],
       },
       {
         title: "Alertas comerciales",
         items: [
-          { label: "3 leads sin contacto > 5 días — 62k€ en riesgo", detail: "Leads calientes que no han recibido follow-up. HubSpot muestra última actividad hace 6, 7 y 8 días", severity: "high" },
-          { label: "Derivación Hospital Clínic: 2 pacientes esta semana", detail: "Canal más rentable (42% conversión). Requiere respuesta < 24h para mantener relación", severity: "medium", tags: ["Derivación"] },
-          { label: "Scoring AI: 4 leads con >80% probabilidad de cierre", detail: "Modelo entrenado con 200+ históricos. Recomendación: priorizar llamada directa del director clínico", severity: "normal" },
+          { label: "3 leads sin contacto > 5 días — 62k€ en riesgo", detail: "Leads calientes sin follow-up. HubSpot muestra última actividad hace 6, 7 y 8 días respectivamente", severity: "high" },
+          { label: "Derivación Hospital Clínic: 2 pacientes esta semana", detail: "Canal con mayor conversión (42%). Requiere respuesta < 24h para mantener la relación activa", severity: "medium", tags: ["Derivación"] },
+          { label: "4 leads con alta probabilidad de cierre", detail: "Basado en perfil, tiempo en pipeline y engagement. Recomendación: priorizar llamada directa del director clínico", severity: "normal" },
         ],
       },
     ],
@@ -348,7 +348,7 @@ export const roleViews: Record<RoleKey, RoleView> = {
     personaRole: "Gestor Operativo",
     icon: "BedDouble",
     description:
-      "Gestión de capacidad en tiempo real. Forecast de ocupación basado en pipeline, altas programadas y estacionalidad. Optimización de asignación de habitaciones.",
+      "Gestión de capacidad del grupo. Mapa de camas, movimientos (ingresos/altas/traslados), forecast de ocupación y distribución por fase terapéutica.",
     kpis: [
       { label: "Camas totales (grupo)", value: "78", trend: "42 BCN + 36 MLG", trendDirection: "neutral" },
       { label: "Ocupación media", value: "81%", trend: "+3.2pp vs semana pasada", trendDirection: "up" },
@@ -386,40 +386,39 @@ export const roleViews: Record<RoleKey, RoleView> = {
     key: "backoffice",
     label: "Back Office",
     persona: "Patricia Vidal",
-    personaRole: "Operations Manager",
+    personaRole: "Controller / Administración",
     icon: "Settings",
     description:
-      "Automatización de back office con IA. Target: 1 FTE + % manager por clínica. WhatsApp automation, email con agentes, reducción de tareas repetitivas.",
+      "Controlling operativo del grupo: facturación, cobros, pagos a proveedores, nómina y gestión del equipo. Integración con Sage para contabilidad.",
     kpis: [
-      { label: "FTEs ahorrados (grupo)", value: "6", trend: "3 por clínica × 2", trendDirection: "up" },
-      { label: "Ahorro anual estimado", value: "340k €", trend: "~170k/clínica", trendDirection: "up" },
-      { label: "Tareas automatizadas", value: "73%", trend: "+15pp desde implementación", trendDirection: "up" },
-      { label: "Tiempo admin/persona", value: "8 hrs/sem", trend: "−42% vs baseline 14 hrs", trendDirection: "down" },
+      { label: "Facturas emitidas (mes)", value: "62", trend: "+8% vs mes anterior", trendDirection: "up" },
+      { label: "Tasa de cobro", value: "87%", trend: "3 facturas vencidas (+30d)", trendDirection: "down" },
+      { label: "Coste nómina/mes", value: "148k €", trend: "42% de ingresos", trendDirection: "neutral" },
+      { label: "FTEs grupo", value: "47", trend: "BCN 28 + MLG 19", trendDirection: "neutral" },
     ],
     blocks: [
       {
-        title: "Reducción de FTEs por función",
+        title: "Facturación del mes",
         items: [
-          { label: "Facturación: 2 FTE → 0.4 FTE (−80%)", detail: "Sage integrado + reconciliación automática. Solo revisión y excepciones manuales", severity: "normal", tags: ["−1.6 FTE"] },
-          { label: "Admisiones: 2 FTE → 1 FTE (−50%)", detail: "Pre-assessment digital, documentación auto-generada, firma electrónica", severity: "normal", tags: ["−1 FTE"] },
-          { label: "Enfermería admin: 2 FTE → 1.5 FTE (−25%)", detail: "Notas clínicas por voz, medicación digital, rondas con checklist automático", severity: "normal", tags: ["−0.5 FTE"] },
-          { label: "RRHH: 1 FTE → 0.5 FTE (−50%)", detail: "Turnos auto-generados, onboarding digital, compliance tracking automático", severity: "normal", tags: ["−0.5 FTE"] },
-          { label: "Recepción: 1 FTE → 0.6 FTE (−40%)", detail: "Check-in digital, WhatsApp automation para familias, agenda integrada", severity: "normal", tags: ["−0.4 FTE"] },
+          { label: "42k€ facturado pendiente de cobro", detail: "12 facturas emitidas en abril sin cobrar. 3 vencidas >30 días (30.5k€). Familia Rodríguez (18k€) acumula 36 días de retraso.", severity: "high", tags: ["Cobros", "Sage"] },
+          { label: "62 facturas emitidas en abril — 52 cobradas", detail: "Ratio de cobro 83.9% (target 90%). Pendiente principal: 3 familias con pagos vencidos. Se enviaron 2 recordatorios automáticos.", severity: "medium", tags: ["Facturación"] },
+          { label: "Nota de crédito NC-2026-041 por ajuste de estancia", detail: "Paciente Álvarez — alta adelantada 4 días. Nota de crédito de 640€ emitida. Pendiente aprobación dirección.", severity: "normal", tags: ["Sage"] },
         ],
       },
       {
-        title: "Automatizaciones activas",
+        title: "Pagos a proveedores",
         items: [
-          { label: "WhatsApp: 124 mensajes/semana automatizados", detail: "Actualizaciones a familias, recordatorios de visita, confirmaciones de cita. 98% entregados", severity: "normal" },
-          { label: "Email: 67 emails/semana con agentes AI", detail: "Respuestas a consultas, envío de informes, seguimiento post-alta. Tiempo respuesta: <2 min", severity: "normal" },
-          { label: "Informes auto-generados: 6 tipos semanales", detail: "Clínico, operativo, financiero, grupo, VCP, adherencia. Sin intervención humana", severity: "normal" },
+          { label: "38k€ en pagos programados próxima semana", detail: "Farmacia (12k€ vence lun), alimentación Aramark (8.5k€ vence mié), limpieza ISS (6k€), seguros (4.5k€), suministros médicos (7k€).", severity: "normal", tags: ["Tesorería"] },
+          { label: "Pago a Aramark con 5 días de retraso", detail: "Factura de alimentación de marzo (8.2k€) sin procesar. Proveedor contactó ayer. Requiere autorización.", severity: "high", tags: ["Urgente"] },
+          { label: "Revisión contrato Clece limpieza MLG — renovación mayo", detail: "Contrato actual 6k€/mes. Presupuesto alternativo ISS a 5.2k€/mes (−13%). Decisión antes del 30 abril.", severity: "medium", tags: ["Proveedores"] },
         ],
       },
       {
-        title: "Alertas operativas",
+        title: "Nómina y equipo",
         items: [
-          { label: "Turno nocturno MLG sin cobertura completa (sábado)", detail: "1 enfermero de baja. Sistema sugiere: reasignar auxiliar de planta norte + alerta supervisora", severity: "high" },
-          { label: "Certificación primeros auxilios: 3 empleados vencen en 30 días", detail: "Notificación automática enviada. 1 ya agendó renovación", severity: "medium" },
+          { label: "Nóminas abril procesadas — pendiente cierre Sage", detail: "Total bruto grupo: 148.3k€ (BCN 92k€ + MLG 56.3k€). Incluye 2 extras por festivos y 1 liquidación.", severity: "normal", tags: ["Nómina"] },
+          { label: "1 baja médica activa en BCN + 1 vacante en MLG", detail: "Baja: enfermero Pedro M. (estimada 3 semanas). Vacante: auxiliar de planta MLG — 4 candidatos en proceso.", severity: "medium", tags: ["RRHH"] },
+          { label: "Coste personal / ingreso: 42% (target 40%)", detail: "BCN: 39% (en target). MLG: 48% (por encima — baja ocupación diluye ratio). Mejora esperada cuando MLG suba a 85%.", severity: "medium", tags: ["Controlling"] },
         ],
       },
     ],
@@ -432,37 +431,37 @@ export const roleViews: Record<RoleKey, RoleView> = {
     personaRole: "Director de Grupo",
     icon: "Building2",
     description:
-      "Vista consolidada del grupo. Comparativa entre Barcelona y Málaga en todos los KPIs. ROI de ResiOS, VCP tracking y decisiones estratégicas basadas en datos.",
+      "Vista consolidada del grupo. Comparativa entre Barcelona y Málaga, P&L consolidado, pipeline de adquisiciones y seguimiento del plan de valor.",
     kpis: [
-      { label: "Clínicas activas", value: "2", trend: "BCN operando + MLG onboarding", trendDirection: "neutral" },
+      { label: "Clínicas activas", value: "2", trend: "BCN operando + MLG ramp-up", trendDirection: "neutral" },
       { label: "Revenue grupo", value: "680k €/mes", trend: "+8.4% vs plan", trendDirection: "up" },
       { label: "EBITDA consolidado", value: "18.7%", trend: "BCN 21.3% · MLG 14.8%", trendDirection: "up" },
-      { label: "ROI ResiOS (anualizado)", value: "4.2x", trend: "Break-even día 21", trendDirection: "up" },
+      { label: "Pacientes activos", value: "63", trend: "BCN 35 + MLG 28", trendDirection: "neutral" },
     ],
     blocks: [
       {
         title: "Comparativa clínicas — KPIs clave",
         items: [
-          { label: "Ocupación: BCN 84% vs MLG 78%", detail: "BCN estable, MLG en ramp-up. Target MLG: 83% en S+8 basado en pipeline actual", severity: "normal" },
-          { label: "Revenue/cama: BCN 10k vs MLG 7.2k", detail: "Diferencia por mix de servicio (BCN más privado puro, MLG más derivación pública)", severity: "medium" },
-          { label: "Conversión: BCN 38% vs MLG 29%", detail: "MLG aún estableciendo canales de derivación locales. Hospital Regional Málaga en pipeline", severity: "medium" },
-          { label: "Satisfacción: BCN +22 NPS vs MLG +14 NPS", detail: "MLG en primeros 60 días. Benchmark sector: +8 NPS", severity: "normal" },
+          { label: "Ocupación: BCN 84% vs MLG 78%", detail: "BCN estable. MLG en ramp-up, target 83% en 8 semanas basado en pipeline actual", severity: "normal" },
+          { label: "Revenue/cama: BCN 10k€ vs MLG 7.2k€", detail: "Diferencia por mix de pacientes: BCN más privado puro, MLG con más derivación pública a menor tarifa", severity: "medium" },
+          { label: "Conversión: BCN 38% vs MLG 29%", detail: "MLG estableciendo canales de derivación locales. Hospital Regional de Málaga pendiente de acuerdo", severity: "medium" },
+          { label: "NPS: BCN +22 vs MLG +14", detail: "MLG lleva 60 días operando. Benchmark sector: +8 NPS. Ambas por encima", severity: "normal" },
         ],
       },
       {
-        title: "Value Creation Plan — tracking",
+        title: "Plan de valor — seguimiento",
         items: [
-          { label: "EBITDA target 12 meses: 24%", detail: "Actual: 18.7%. Trayectoria on-track. Palancas: ocupación (+5pp) + reducción costes personal (−12%)", severity: "normal" },
-          { label: "Valoración implícita: 12x EBITDA → objetivo 36M€", detail: "Inversión: 18M. Multiple arbitrage target: compra a 8x, venta a 12x en 3 años", severity: "normal" },
-          { label: "Próxima adquisición: pipeline de 4 clínicas", detail: "2 en Andalucía, 1 en Valencia, 1 en Madrid. Ticket medio: 7-9M€. Due diligence en 2", severity: "normal", tags: ["Expansión"] },
+          { label: "EBITDA target a 12 meses: 24%", detail: "Actual: 18.7%. Trayectoria on-track. Palancas: subir ocupación MLG (+5pp) + normalizar costes personal", severity: "normal" },
+          { label: "Valoración implícita grupo: objetivo 36M€", detail: "Inversión acumulada: 18M€. Múltiplo target: 12x EBITDA en 3 años. Requiere EBITDA > 3M€/año", severity: "normal" },
+          { label: "Pipeline adquisiciones: 4 clínicas en análisis", detail: "2 en Andalucía (due diligence activa), 1 en Valencia, 1 en Madrid. Ticket medio: 7-9M€", severity: "normal", tags: ["Expansión"] },
         ],
       },
       {
-        title: "Impacto ResiOS en grupo",
+        title: "Prioridades operativas",
         items: [
-          { label: "Ahorro operativo: 340k€/año", detail: "6 FTEs ahorrados (3/clínica). Payback ResiOS: < 3 meses. Scaling: cada nueva clínica suma ~170k/año", severity: "normal" },
-          { label: "Revenue incremental: +148k€/mes EBITDA", detail: "Ocupación lift (+9pp en 9 meses) + aceleración cobros (−9 días DSO) + eficiencia operativa", severity: "normal" },
-          { label: "IP y escalabilidad", detail: "Plantilla ResiOS replicable a cada nueva adquisición. Setup de nueva clínica: 14 días vs 4-6 meses tradicional", severity: "normal", tags: ["Escala"] },
+          { label: "MLG: subir ocupación Ala Sur (67% actual)", detail: "Ala Norte al 89%. Decisión pendiente: concentrar ingresos en Norte o abrir las dos alas. Impacto en costes operativos", severity: "high" },
+          { label: "Cobros: 42k€ vencidos > 30 días", detail: "3 familias con impago. Requiere escalación a gestión de cobros si no se resuelve esta semana", severity: "high" },
+          { label: "Vacante auxiliar MLG: 4 candidatos en proceso", detail: "Selección prevista para antes del 25 de abril. Baja enfermero BCN cubierta con refuerzo temporal", severity: "medium", tags: ["RRHH"] },
         ],
       },
     ],
@@ -667,25 +666,69 @@ export const conversionTrend = [
   { week: "Hoy", rate: 34 },
 ];
 
-// BACKOFFICE: Automation by process
-export const automationByProcess = [
-  { process: "Facturación", automated: 92, manual: 8 },
-  { process: "Reconciliación", automated: 94, manual: 6 },
-  { process: "Informes", automated: 88, manual: 12 },
-  { process: "Comunicación familias", automated: 85, manual: 15 },
-  { process: "Admisiones", automated: 65, manual: 35 },
-  { process: "Turnos", automated: 60, manual: 40 },
-  { process: "Compliance", automated: 55, manual: 45 },
+// BACKOFFICE: Monthly invoicing summary
+export const invoicingSummary = [
+  { month: "Nov", issued: 54, collected: 48, pending: 6, rate: 89 },
+  { month: "Dic", issued: 58, collected: 51, pending: 7, rate: 88 },
+  { month: "Ene", issued: 56, collected: 50, pending: 6, rate: 89 },
+  { month: "Feb", issued: 59, collected: 53, pending: 6, rate: 90 },
+  { month: "Mar", issued: 60, collected: 54, pending: 6, rate: 90 },
+  { month: "Abr", issued: 62, collected: 52, pending: 10, rate: 84 },
 ];
 
-// BACKOFFICE: Savings over time
-export const savingsOverTime = [
-  { month: "Ene", savings: 18 },
-  { month: "Feb", savings: 24 },
-  { month: "Mar", savings: 26 },
-  { month: "Abr", savings: 28 },
-  { month: "May (P)", savings: 30 },
-  { month: "Jun (P)", savings: 32 },
+// BACKOFFICE: Supplier payments
+export interface SupplierPayment {
+  supplier: string;
+  category: string;
+  amount: number;
+  dueDate: string;
+  status: "paid" | "pending" | "overdue";
+  clinic: string;
+}
+
+export const supplierPayments: SupplierPayment[] = [
+  { supplier: "Farmacia Puig", category: "Farmacia", amount: 12400, dueDate: "21 Abr", status: "pending", clinic: "BCN" },
+  { supplier: "Aramark", category: "Alimentación", amount: 8500, dueDate: "23 Abr", status: "pending", clinic: "BCN" },
+  { supplier: "ISS Facility", category: "Limpieza", amount: 6000, dueDate: "25 Abr", status: "pending", clinic: "BCN" },
+  { supplier: "Medline", category: "Suministros médicos", amount: 7000, dueDate: "28 Abr", status: "pending", clinic: "MLG" },
+  { supplier: "AXA Seguros", category: "Seguros", amount: 4500, dueDate: "30 Abr", status: "pending", clinic: "Grupo" },
+  { supplier: "Aramark", category: "Alimentación", amount: 8200, dueDate: "12 Abr", status: "overdue", clinic: "MLG" },
+  { supplier: "Clece", category: "Limpieza", amount: 5800, dueDate: "10 Abr", status: "paid", clinic: "MLG" },
+  { supplier: "Iberdrola", category: "Suministros", amount: 3200, dueDate: "15 Abr", status: "paid", clinic: "BCN" },
+  { supplier: "Vodafone", category: "Telecomunicaciones", amount: 890, dueDate: "15 Abr", status: "paid", clinic: "Grupo" },
+];
+
+// BACKOFFICE: Payroll by department
+export const payrollByDept = [
+  { dept: "Enfermería", headcount: 14, monthlyCost: 42, costPerFTE: 3.0, clinic: "BCN" },
+  { dept: "Terapeutas", headcount: 6, monthlyCost: 24, costPerFTE: 4.0, clinic: "BCN" },
+  { dept: "Médicos", headcount: 3, monthlyCost: 15, costPerFTE: 5.0, clinic: "BCN" },
+  { dept: "Administración", headcount: 3, monthlyCost: 7.5, costPerFTE: 2.5, clinic: "BCN" },
+  { dept: "Servicios", headcount: 2, monthlyCost: 3.5, costPerFTE: 1.75, clinic: "BCN" },
+  { dept: "Enfermería", headcount: 8, monthlyCost: 24, costPerFTE: 3.0, clinic: "MLG" },
+  { dept: "Terapeutas", headcount: 4, monthlyCost: 16, costPerFTE: 4.0, clinic: "MLG" },
+  { dept: "Médicos", headcount: 2, monthlyCost: 10, costPerFTE: 5.0, clinic: "MLG" },
+  { dept: "Administración", headcount: 3, monthlyCost: 4.5, costPerFTE: 1.5, clinic: "MLG" },
+  { dept: "Servicios", headcount: 2, monthlyCost: 1.8, costPerFTE: 0.9, clinic: "MLG" },
+];
+
+// BACKOFFICE: Payroll trend
+export const payrollTrend = [
+  { month: "Nov", bcn: 88, mlg: 52, total: 140 },
+  { month: "Dic", bcn: 90, mlg: 53, total: 143 },
+  { month: "Ene", bcn: 90, mlg: 54, total: 144 },
+  { month: "Feb", bcn: 91, mlg: 55, total: 146 },
+  { month: "Mar", bcn: 92, mlg: 55, total: 147 },
+  { month: "Abr", bcn: 92, mlg: 56.3, total: 148.3 },
+];
+
+// BACKOFFICE: Team FTE breakdown
+export const teamBreakdown = [
+  { role: "Enfermero/a", bcn: 14, mlg: 8, total: 22 },
+  { role: "Terapeuta", bcn: 6, mlg: 4, total: 10 },
+  { role: "Médico", bcn: 3, mlg: 2, total: 5 },
+  { role: "Administrativo", bcn: 3, mlg: 3, total: 6 },
+  { role: "Servicios generales", bcn: 2, mlg: 2, total: 4 },
 ];
 
 // MULTICLINICA: P&L consolidado
@@ -788,52 +831,7 @@ export const channelROI = [
   { channel: "Redes sociales", leads: 5, closed: 0, revenue: 0, cac: 1.2, ltv: 72, roi: "—" },
 ];
 
-// BACKOFFICE: Shift coverage
-export interface Shift {
-  day: string;
-  morning: { covered: number; needed: number };
-  afternoon: { covered: number; needed: number };
-  night: { covered: number; needed: number };
-  clinic: string;
-}
-
-export const shiftCoverage: Shift[] = [
-  { day: "Lun", morning: { covered: 4, needed: 4 }, afternoon: { covered: 3, needed: 3 }, night: { covered: 2, needed: 2 }, clinic: "BCN" },
-  { day: "Mar", morning: { covered: 4, needed: 4 }, afternoon: { covered: 3, needed: 3 }, night: { covered: 2, needed: 2 }, clinic: "BCN" },
-  { day: "Mié", morning: { covered: 4, needed: 4 }, afternoon: { covered: 3, needed: 3 }, night: { covered: 2, needed: 2 }, clinic: "BCN" },
-  { day: "Jue", morning: { covered: 4, needed: 4 }, afternoon: { covered: 3, needed: 3 }, night: { covered: 2, needed: 2 }, clinic: "BCN" },
-  { day: "Vie", morning: { covered: 4, needed: 4 }, afternoon: { covered: 2, needed: 3 }, night: { covered: 2, needed: 2 }, clinic: "BCN" },
-  { day: "Sáb", morning: { covered: 3, needed: 3 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 2, needed: 2 }, clinic: "BCN" },
-  { day: "Dom", morning: { covered: 3, needed: 3 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 2, needed: 2 }, clinic: "BCN" },
-  { day: "Lun", morning: { covered: 3, needed: 3 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 2, needed: 2 }, clinic: "MLG" },
-  { day: "Mar", morning: { covered: 3, needed: 3 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 2, needed: 2 }, clinic: "MLG" },
-  { day: "Mié", morning: { covered: 3, needed: 3 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 2, needed: 2 }, clinic: "MLG" },
-  { day: "Jue", morning: { covered: 3, needed: 3 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 2, needed: 2 }, clinic: "MLG" },
-  { day: "Vie", morning: { covered: 3, needed: 3 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 2, needed: 2 }, clinic: "MLG" },
-  { day: "Sáb", morning: { covered: 2, needed: 2 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 1, needed: 2 }, clinic: "MLG" },
-  { day: "Dom", morning: { covered: 2, needed: 2 }, afternoon: { covered: 2, needed: 2 }, night: { covered: 2, needed: 2 }, clinic: "MLG" },
-];
-
-// BACKOFFICE: Compliance tracker
-export interface ComplianceItem {
-  item: string;
-  responsible: string;
-  deadline: string;
-  status: "ok" | "warning" | "expired";
-  clinic: string;
-}
-
-export const complianceTracker: ComplianceItem[] = [
-  { item: "Licencia actividad sanitaria", responsible: "Dirección", deadline: "Dic 2026", status: "ok", clinic: "BCN" },
-  { item: "Seguro responsabilidad civil", responsible: "Legal", deadline: "Sep 2026", status: "ok", clinic: "BCN" },
-  { item: "Certificación primeros auxilios — Lucía H.", responsible: "RRHH", deadline: "15 May 2026", status: "warning", clinic: "BCN" },
-  { item: "Certificación primeros auxilios — Pedro M.", responsible: "RRHH", deadline: "18 May 2026", status: "warning", clinic: "BCN" },
-  { item: "Certificación primeros auxilios — Ana G.", responsible: "RRHH", deadline: "20 May 2026", status: "warning", clinic: "MLG" },
-  { item: "Inspección sanitaria anual", responsible: "Dirección", deadline: "Jun 2026", status: "ok", clinic: "MLG" },
-  { item: "Protección de datos (RGPD) — auditoría", responsible: "Legal", deadline: "Jul 2026", status: "ok", clinic: "Grupo" },
-  { item: "Plan de emergencia — simulacro", responsible: "Mantenimiento", deadline: "May 2026", status: "ok", clinic: "BCN" },
-  { item: "Revisión extintores", responsible: "Mantenimiento", deadline: "02 Abr 2026", status: "expired", clinic: "MLG" },
-];
+// (old shift/compliance data removed — backoffice now focused on controlling)
 
 // MULTICLINICA: Expansion pipeline
 export interface AcquisitionTarget {
@@ -897,9 +895,9 @@ export const roleTabs: Record<RoleKey, { key: string; label: string }[]> = {
   ],
   backoffice: [
     { key: "resumen", label: "Resumen" },
-    { key: "automatizacion", label: "Automatización" },
-    { key: "turnos", label: "Turnos" },
-    { key: "compliance", label: "Compliance" },
+    { key: "facturacion", label: "Facturación" },
+    { key: "nomina", label: "Nómina" },
+    { key: "equipo", label: "Equipo" },
   ],
   "gestion-multiclinica": [
     { key: "resumen", label: "Resumen" },
@@ -935,14 +933,7 @@ export const occupancyForecast = [
   { week: "S+4", bcn: 90, mlg: 86 },
 ];
 
-export const fteComparison = [
-  { dept: "Facturación", before: 2, after: 0.4 },
-  { dept: "Admisiones", before: 2, after: 1 },
-  { dept: "Enf. Admin", before: 2, after: 1.5 },
-  { dept: "RRHH", before: 1, after: 0.5 },
-  { dept: "Recepción", before: 1, after: 0.6 },
-  { dept: "Reporting", before: 1, after: 0.2 },
-];
+// (old fteComparison removed — replaced by teamBreakdown + payrollByDept)
 
 export const clinicComparison = [
   { metric: "Ocupación %", bcn: 84, mlg: 78 },
@@ -963,28 +954,28 @@ export interface CopilotData {
 
 export const copilotByRole: Record<RoleKey, CopilotData> = {
   finanzas: {
-    greeting: "Hola Ana, soy tu copiloto. Tengo el contexto de hoy en CITA. ¿En qué te ayudo?",
+    greeting: "Hola Ana. Tienes 3 facturas vencidas por 42k€ y la reconciliación de marzo pendiente de cerrar. ¿En qué te ayudo?",
     suggestions: [
-      { text: "Llamar al titular del paciente #4790. Vence hoy: 640€. 2 recordatorios automáticos sin respuesta. Si no se resuelve hoy, escala a Enrique mañana.", type: "alert", actions: [{ label: "Marcar llamada hecha", variant: "primary" }, { label: "Ver historial pagos", variant: "secondary" }] },
-      { text: "Asignar cobro 4.800€ a Familia Ramírez. 97% coincidencia: cobro recibido sin factura asignada. Confirmar y cierra el ciclo lead-cobro automáticamente.", type: "action", actions: [{ label: "Confirmar asignación", variant: "primary" }, { label: "Revisar manualmente", variant: "secondary" }] },
-      { text: "Margen MLG por debajo de target: 14.8% vs 18% objetivo. Coste de personal temporal inflando. Normaliza en S+3.", type: "insight" },
+      { text: "Factura F-2026-0385 (Familia Rodríguez, 18k€) lleva 36 días vencida. 2 recordatorios enviados sin respuesta. Siguiente paso: contactar directamente o escalar a dirección.", type: "alert", actions: [{ label: "Marcar llamada hecha", variant: "primary" }, { label: "Ver historial pagos", variant: "secondary" }] },
+      { text: "Cobro recibido de 4.800€ sin factura asignada. Por importe y concepto coincide con Familia Ramírez (F-2026-0398). Confirmar para cerrar.", type: "action", actions: [{ label: "Confirmar asignación", variant: "primary" }, { label: "Revisar manualmente", variant: "secondary" }] },
+      { text: "Margen MLG por debajo de target: 14.8% vs 18% objetivo. Coste de personal elevado por refuerzo temporal. Se normaliza cuando se reincorpore enfermero de baja.", type: "insight" },
     ],
     suggestedQuestions: [
       "¿Cuál es el cash flow proyectado a 3 meses?",
       "¿Qué clínica tiene mejor margen por cama?",
-      "¿Cómo va la reconciliación bancaria de este mes?",
+      "¿Cuántas facturas hay pendientes de cobro?",
     ],
     qa: [
-      { question: "¿Cuál es el cash flow proyectado a 3 meses?", answer: "Cash flow proyectado: M+1: +82k€, M+2: +91k€, M+3: +97k€. Tendencia positiva por aumento de ocupación MLG y reducción DSO. Riesgo: 42k€ en facturas vencidas si no se cobran." },
-      { question: "¿Qué clínica tiene mejor margen por cama?", answer: "BCN: 10k€/cama/mes con EBITDA 21.3%. MLG: 7.2k€/cama/mes con EBITDA 14.8%. La diferencia se explica por mix de clientes (BCN más privado puro) y costes de onboarding en MLG que normalizan en S+8." },
+      { question: "¿Cuál es el cash flow proyectado a 3 meses?", answer: "Cash flow proyectado: M+1: +82k€, M+2: +91k€, M+3: +97k€. Tendencia positiva por aumento de ocupación MLG. Riesgo: 42k€ en facturas vencidas si no se cobran." },
+      { question: "¿Qué clínica tiene mejor margen por cama?", answer: "BCN: 10k€/cama/mes con EBITDA 21.3%. MLG: 7.2k€/cama/mes con EBITDA 14.8%. La diferencia se explica por mix de pacientes (BCN más privado puro) y costes de personal temporal en MLG." },
     ],
   },
   crecimiento: {
-    greeting: "Hola Marta, soy tu copiloto. Tienes 2 decisiones de cierre esta semana y 3 leads que necesitan atención urgente.",
+    greeting: "Hola Marta. Tienes 2 decisiones de cierre pendientes esta semana y 3 leads sin contacto desde hace más de 5 días.",
     suggestions: [
-      { text: "Lead Familia García lleva 6 días sin contacto — 20k€/mes en riesgo. Scoring AI: 87% probabilidad de cierre si contactas hoy.", type: "alert", actions: [{ label: "Agendar llamada", variant: "primary" }, { label: "Ver ficha en HubSpot", variant: "secondary" }] },
-      { text: "Derivación Hospital Clínic: 2 pacientes nuevos. Canal con 42% conversión. Respuesta necesaria antes de mañana para mantener el canal activo.", type: "action", actions: [{ label: "Preparar propuesta", variant: "primary" }, { label: "Ver historial derivaciones", variant: "secondary" }] },
-      { text: "Scoring AI: 4 leads con >80% probabilidad de cierre. Si cierras 3 de 6 en negociación, BCN llega a 90% ocupación en S+4.", type: "insight" },
+      { text: "Lead Familia García lleva 6 días sin contacto — 20k€/mes en juego. Están en fase de negociación final, decisión esta semana.", type: "alert", actions: [{ label: "Agendar llamada", variant: "primary" }, { label: "Ver ficha en HubSpot", variant: "secondary" }] },
+      { text: "Derivación Hospital Clínic: 2 pacientes nuevos. Es el canal con mayor conversión (42%). Requiere respuesta antes de mañana.", type: "action", actions: [{ label: "Preparar propuesta", variant: "primary" }, { label: "Ver historial derivaciones", variant: "secondary" }] },
+      { text: "Si se cierran 3 de los 6 leads en negociación, BCN llegaría al 90% de ocupación en 4 semanas.", type: "insight" },
     ],
     suggestedQuestions: [
       "¿Cómo va el pipeline por canal de adquisición?",
@@ -992,59 +983,59 @@ export const copilotByRole: Record<RoleKey, CopilotData> = {
       "¿Qué leads debo priorizar hoy?",
     ],
     qa: [
-      { question: "¿Cuándo llegaremos al 90% de ocupación en BCN?", answer: "Con el pipeline actual (28 leads, 34% conversión) y 1 alta programada, proyectamos 90% en BCN para S+4. Requiere cerrar al menos 3 de los 6 leads en etapa de negociación." },
-      { question: "¿Qué leads debo priorizar hoy?", answer: "1) Familia García — negociación final, decisión esta semana, 20k€/mes. 2) Derivación Clínic — 2 pacientes, canal con 42% conversión, respuesta urgente. 3) Lead web María L. — scoring 87%, sin contacto hace 6 días." },
+      { question: "¿Cuándo llegaremos al 90% de ocupación en BCN?", answer: "Con el pipeline actual (28 leads calientes, 34% conversión) y 1 alta programada, proyectamos 90% en BCN para S+4. Requiere cerrar al menos 3 de los 6 leads en negociación." },
+      { question: "¿Qué leads debo priorizar hoy?", answer: "1) Familia García — negociación final, decisión esta semana, 20k€/mes. 2) Derivación Clínic — 2 pacientes, canal con 42% conversión, respuesta urgente. 3) Lead web María L. — buen perfil, sin contacto hace 6 días." },
     ],
   },
   ocupacion: {
-    greeting: "Hola Carlos, soy tu copiloto. 15 camas disponibles hoy. 3 ingresos confirmados esta semana, 1 alta el viernes.",
+    greeting: "Hola Carlos. 15 camas disponibles hoy (8 BCN + 7 MLG). 3 ingresos confirmados esta semana, 1 alta el viernes.",
     suggestions: [
-      { text: "Ingreso confirmado lunes (BCN): paciente pre-asignado a hab. 203 (Planta 2). Documentación completa, dietas especiales: sin gluten. Cocina ya notificada.", type: "action", actions: [{ label: "Confirmar asignación", variant: "primary" }, { label: "Cambiar habitación", variant: "secondary" }] },
-      { text: "Planta 3 BCN al 75% — 3 camas libres + 1 alta viernes = 4 libres. Pipeline tiene 2 candidatos. Sugerencia: priorizar ingresos en Planta 3.", type: "alert", actions: [{ label: "Ver candidatos pipeline", variant: "primary" }] },
-      { text: "MLG Ala Sur en ramp-up: 67% ocupación. Recomendación: concentrar ingresos en Ala Norte (89%) para reducir costes operativos.", type: "insight" },
+      { text: "Ingreso confirmado lunes (BCN): paciente pre-asignado a hab. 203 (Planta 2). Documentación completa, dieta especial: sin gluten. Pendiente confirmar con cocina.", type: "action", actions: [{ label: "Confirmar asignación", variant: "primary" }, { label: "Cambiar habitación", variant: "secondary" }] },
+      { text: "Planta 3 BCN al 75% — 3 camas libres + 1 alta viernes = 4 libres. Hay 2 ingresos del pipeline previstos para la próxima semana.", type: "alert", actions: [{ label: "Ver ingresos previstos", variant: "primary" }] },
+      { text: "MLG Ala Sur al 67%. Ala Norte al 89%. Pendiente decisión de Enrique: concentrar ingresos en Norte o mantener las dos alas abiertas.", type: "insight" },
     ],
     suggestedQuestions: [
       "¿Cuántas camas se liberan esta semana?",
       "¿Qué habitaciones necesitan mantenimiento?",
-      "¿Cómo optimizar asignación de camas para maximizar ocupación?",
+      "¿Cuál es la situación de ocupación en MLG?",
     ],
     qa: [
-      { question: "¿Cuántas camas se liberan esta semana?", answer: "1 alta programada (viernes, BCN planta 3). Cama lista para nuevo ingreso el lunes siguiente tras limpieza profunda (4h). Pipeline tiene 2 candidatos para esa plaza." },
-      { question: "¿Cómo optimizar asignación de camas para maximizar ocupación?", answer: "Recomendación: concentrar ingresos MLG en Ala Norte primero (89% vs 67% Ala Sur). Reduce costes operativos de tener las dos alas abiertas. Una vez Norte al 95%, abrir Sur progresivamente." },
+      { question: "¿Cuántas camas se liberan esta semana?", answer: "1 alta programada (viernes, BCN Planta 3). Cama lista para nuevo ingreso el lunes siguiente tras limpieza profunda (4h). Pipeline de crecimiento tiene 2 ingresos probables para la semana siguiente." },
+      { question: "¿Cuál es la situación de ocupación en MLG?", answer: "MLG total: 78% (28 de 36 camas). Ala Norte al 89% (16/18), Ala Sur al 67% (12/18). La diferencia es por el ramp-up post-adquisición. Con el pipeline actual (2 ingresos previstos), subiría a 83% en 4 semanas." },
     ],
   },
   backoffice: {
-    greeting: "Hola Patricia, soy tu copiloto. 73% de tareas automatizadas. Tienes 1 alerta de cobertura urgente.",
+    greeting: "Hola Patricia, soy tu copiloto de controlling. Tienes 3 facturas vencidas por 30.5k€ y un pago a proveedor con retraso. Nóminas de abril procesadas.",
     suggestions: [
-      { text: "Turno nocturno MLG sin cobertura completa (sábado). 1 enfermero de baja. Sugerencia: reasignar auxiliar de Ala Norte + notificar supervisora.", type: "alert", actions: [{ label: "Aplicar sugerencia", variant: "primary" }, { label: "Ver turnos completos", variant: "secondary" }] },
-      { text: "3 certificaciones de primeros auxilios vencen en 30 días. 1 ya agendó renovación. Enviar recordatorio a los 2 restantes.", type: "alert", actions: [{ label: "Enviar recordatorio", variant: "primary" }] },
-      { text: "Oportunidad: admisiones aún tiene 2 procesos manuales. Automatizarlos reduce 0.5 FTE adicional por clínica.", type: "action" },
+      { text: "Familia Rodríguez acumula 36 días de impago (18k€). Es la factura vencida más antigua. Siguiente paso: contacto directo o derivar a gestión de cobro.", type: "alert", actions: [{ label: "Enviar aviso formal", variant: "primary" }, { label: "Ver histórico pagos", variant: "secondary" }] },
+      { text: "Pago a Aramark MLG con 5 días de retraso (8.2k€). Proveedor contactó ayer preguntando. Requiere tu autorización para procesar.", type: "alert", actions: [{ label: "Autorizar pago", variant: "primary" }, { label: "Contactar Aramark", variant: "secondary" }] },
+      { text: "Ratio coste personal/ingresos en MLG: 48% (target 40%). Se normalizará cuando ocupación suba de 78% a 85%+.", type: "insight" },
     ],
     suggestedQuestions: [
-      "¿Cuánto estamos ahorrando en FTEs este trimestre?",
-      "¿Qué procesos tienen más potencial de automatización?",
-      "¿Cómo va el target de 1 FTE/clínica?",
+      "¿Cuánto tenemos pendiente de cobro en total?",
+      "¿Cómo va el ratio de coste de personal vs ingresos?",
+      "¿Qué pagos a proveedores tenemos esta semana?",
     ],
     qa: [
-      { question: "¿Cuánto estamos ahorrando en FTEs este trimestre?", answer: "Ahorro Q actual: 85k€ (6 FTEs × ~14.2k€/FTE/trimestre). Anualizado: 340k€. Desglose: Facturación −80%, Admisiones −50%, Enf. Admin −25%, RRHH −50%, Recepción −40%, Reporting −80%." },
-      { question: "¿Cómo va el target de 1 FTE/clínica?", answer: "Target original de Enrique: 1 FTE + % manager por clínica en back office. Actual: ~3 FTE equivalentes por clínica (de ~6 originales). Para llegar a 1-2 FTE total necesitamos: completar integración Sage (S+4), automatizar admisiones digital completo (S+6), y WhatsApp agent para 100% de comunicación familiar (S+8)." },
+      { question: "¿Cuánto tenemos pendiente de cobro en total?", answer: "Total pendiente de cobro: 42k€ en 10 facturas. De ese total, 30.5k€ (3 facturas) están vencidas >30 días. Los 11.5k€ restantes son facturas de abril aún en plazo. Tasa de cobro del mes: 84% (target 90%). Peores pagadores: Familia Rodríguez (18k€, 36d) y Familia Martín (12.5k€, 33d)." },
+      { question: "¿Cómo va el ratio de coste de personal vs ingresos?", answer: "Grupo: 42% (target 40%). BCN: 39% — en rango. MLG: 48% — elevado por baja ocupación (78%). Cada punto de ocupación que sube MLG mejora ~0.5pp el ratio. A 85% ocupación, MLG bajaría a ~41%. Nómina total grupo: 148.3k€/mes sobre 350k€ ingresos grupo." },
     ],
   },
   "gestion-multiclinica": {
-    greeting: "Buenos días Enrique, soy tu copiloto. El grupo opera a 81% ocupación y 680k€ revenue. Tienes 2 temas que requieren tu atención.",
+    greeting: "Buenos días Enrique. El grupo opera a 81% ocupación y 680k€ revenue. Tienes 2 decisiones pendientes esta semana.",
     suggestions: [
-      { text: "MLG Ala Sur al 67% — por debajo de plan. El equipo de crecimiento propone concentrar ingresos en Ala Norte primero. ¿Apruebas el cambio de estrategia?", type: "alert", actions: [{ label: "Aprobar cambio", variant: "primary" }, { label: "Pedir más datos", variant: "secondary" }] },
-      { text: "Due diligence activa en 2 clínicas (Andalucía). Informe preliminar listo para revisión. Ticket medio: 7-9M€.", type: "action", actions: [{ label: "Ver informe", variant: "primary" }, { label: "Agendar call con equipo", variant: "secondary" }] },
-      { text: "ROI ResiOS 4.2x anualizado — supera proyección original de 3x. Cada nueva clínica suma ~170k€/año en ahorro operativo.", type: "insight" },
+      { text: "MLG Ala Sur al 67% — por debajo de plan. El equipo propone concentrar ingresos en Ala Norte hasta llenarla. ¿Apruebas el cambio de estrategia?", type: "alert", actions: [{ label: "Aprobar cambio", variant: "primary" }, { label: "Pedir más datos", variant: "secondary" }] },
+      { text: "Due diligence activa en 2 clínicas en Andalucía. Informe preliminar listo para tu revisión. Ticket medio: 7-9M€.", type: "action", actions: [{ label: "Ver informe", variant: "primary" }, { label: "Agendar call con equipo", variant: "secondary" }] },
+      { text: "42k€ en facturas vencidas. Si no se resuelve esta semana, impacta cash flow de mayo. Patricia pide tu intervención con Familia Rodríguez (18k€).", type: "alert", actions: [{ label: "Llamar a familia", variant: "primary" }] },
     ],
     suggestedQuestions: [
       "¿Cuándo alcanza MLG el break-even operativo?",
-      "¿Cómo escala el ahorro con cada nueva clínica?",
+      "¿Cómo va el EBITDA vs el plan de valor?",
       "¿Qué clínica del pipeline de adquisiciones es más atractiva?",
     ],
     qa: [
-      { question: "¿Cuándo alcanza MLG el break-even operativo?", answer: "Con la trayectoria actual (ocupación +2pp/semana, costes de onboarding bajando), MLG alcanza break-even operativo en S+6 (EBITDA >0). Target de EBITDA 18% en S+12. Palancas: ocupación (de 78% a 88%) + normalización de costes de personal." },
-      { question: "¿Cómo escala el ahorro con cada nueva clínica?", answer: "Cada nueva clínica que entra al grupo aporta: ~170k€/año ahorro en FTEs, setup en 14 días (vs 4-6 meses), modelo de datos replicable. Con 5 clínicas: ~850k€/año en ahorros operativos. El software es el mismo, solo cambia la configuración del tenant." },
+      { question: "¿Cuándo alcanza MLG el break-even operativo?", answer: "Con la trayectoria actual (ocupación +2pp/semana, costes normalizándose), MLG alcanza break-even operativo en ~6 semanas (EBITDA >0). Target de EBITDA 18% a 12 meses. Palancas: subir ocupación de 78% a 88% + que se reincorpore el enfermero de baja." },
+      { question: "¿Cómo va el EBITDA vs el plan de valor?", answer: "EBITDA consolidado: 18.7% (target 12 meses: 24%). BCN en 21.3% — on track. MLG en 14.8% — por debajo pero esperado en fase de ramp-up. Para llegar al 24% grupo necesitamos: MLG a 85%+ ocupación y normalizar ratio personal/ingresos del 48% al 40%." },
     ],
   },
 };

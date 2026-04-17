@@ -20,7 +20,7 @@ import {
   OcupacionMapa, OcupacionTendencias, OcupacionMovimientos,
   FinanzasIngresos, FinanzasCobros, FinanzasCashflow,
   CrecimientoPipeline, CrecimientoCanales, CrecimientoScoring,
-  BackofficeAutomatizacion, BackofficeTurnos, BackofficeCompliance,
+  BackofficeFacturacion, BackofficeNomina, BackofficeEquipo,
   MulticlinicaComparativa, MulticlinicaPL, MulticlinicaExpansion,
 } from "@/components/RoleSections";
 
@@ -34,9 +34,9 @@ const tabComponents: Record<string, React.ComponentType> = {
   pipeline: CrecimientoPipeline,
   canales: CrecimientoCanales,
   scoring: CrecimientoScoring,
-  automatizacion: BackofficeAutomatizacion,
-  turnos: BackofficeTurnos,
-  compliance: BackofficeCompliance,
+  facturacion: BackofficeFacturacion,
+  nomina: BackofficeNomina,
+  equipo: BackofficeEquipo,
   comparativa: MulticlinicaComparativa,
   pl: MulticlinicaPL,
   expansion: MulticlinicaExpansion,
