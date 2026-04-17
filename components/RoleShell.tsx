@@ -16,6 +16,21 @@ import {
   Send,
 } from "lucide-react";
 import { roleViews, copilotByRole, type RoleKey, type BlockItem } from "@/lib/mock-data";
+import {
+  OcupacionSections,
+  FinanzasSections,
+  CrecimientoSections,
+  BackofficeSections,
+  MulticlinicaSections,
+} from "@/components/RoleSections";
+
+const sectionComponents: Record<RoleKey, React.ComponentType> = {
+  ocupacion: OcupacionSections,
+  finanzas: FinanzasSections,
+  crecimiento: CrecimientoSections,
+  backoffice: BackofficeSections,
+  "gestion-multiclinica": MulticlinicaSections,
+};
 
 const iconMap: Record<string, React.ElementType> = {
   DollarSign,
@@ -55,6 +70,9 @@ export function RoleShell({ roleKey }: { roleKey: RoleKey }) {
   const [drawerItem, setDrawerItem] = useState<BlockItem | null>(null);
   const [copilotAnswer, setCopilotAnswer] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState("");
+  const [activeTab, setActiveTab] = useState<"resumen" | "analisis">("resumen");
+
+  const SectionComponent = sectionComponents[roleKey];
 
   const Icon = iconMap[role.icon] || Settings;
   const initials = role.persona
@@ -110,10 +128,40 @@ export function RoleShell({ roleKey }: { roleKey: RoleKey }) {
           ))}
         </div>
 
-        {/* Main content: 2-column layout — blocks left, copilot right */}
+        {/* Tabs */}
+        <div className="flex items-center gap-1 mb-6 bg-slate-100 rounded-lg p-1 w-fit">
+          <button
+            type="button"
+            onClick={() => setActiveTab("resumen")}
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+              activeTab === "resumen"
+                ? "bg-white text-navy-900 shadow-sm"
+                : "text-slate-500 hover:text-slate-700"
+            }`}
+          >
+            Resumen
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("analisis")}
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+              activeTab === "analisis"
+                ? "bg-white text-navy-900 shadow-sm"
+                : "text-slate-500 hover:text-slate-700"
+            }`}
+          >
+            Análisis
+          </button>
+        </div>
+
+        {/* Main content: 2-column layout — content left, copilot right */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left: Blocks (2/3 width) */}
-          <div className="lg:col-span-2 space-y-6">
+          {/* Left: Content (2/3 width) */}
+          <div className="lg:col-span-2">
+            {activeTab === "analisis" ? (
+              <SectionComponent />
+            ) : (
+            <div className="space-y-6">
             {role.blocks.map((block) => (
               <div key={block.title}>
                 <h2 className="font-display text-lg font-semibold text-navy-900 mb-3">
@@ -149,6 +197,8 @@ export function RoleShell({ roleKey }: { roleKey: RoleKey }) {
                 </div>
               </div>
             ))}
+          </div>
+            )}
           </div>
 
           {/* Right: Copilot panel (1/3 width) — always visible */}

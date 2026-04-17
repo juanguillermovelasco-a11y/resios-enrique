@@ -469,6 +469,234 @@ export const roleViews: Record<RoleKey, RoleView> = {
   },
 };
 
+// ─── Subsection data per role ────────────────────────────────────
+
+// OCUPACIÓN: Bed heat map
+export type BedStatus = "occupied" | "available" | "maintenance" | "reserved";
+export interface Bed {
+  id: string;
+  status: BedStatus;
+  patient?: string;
+  daysSinceAdmission?: number;
+  phase?: string;
+}
+export interface Floor {
+  name: string;
+  clinic: string;
+  beds: Bed[];
+}
+
+export const bedMap: Floor[] = [
+  {
+    name: "Planta 1", clinic: "BCN",
+    beds: [
+      { id: "101", status: "occupied", patient: "García M.", daysSinceAdmission: 34, phase: "Fase 2" },
+      { id: "102", status: "occupied", patient: "López R.", daysSinceAdmission: 67, phase: "Fase 3" },
+      { id: "103", status: "occupied", patient: "Fernández J.", daysSinceAdmission: 12, phase: "Fase 1" },
+      { id: "104", status: "available" },
+      { id: "105", status: "occupied", patient: "Martín P.", daysSinceAdmission: 45, phase: "Fase 2" },
+      { id: "106", status: "occupied", patient: "Ruiz A.", daysSinceAdmission: 78, phase: "Fase 4" },
+      { id: "107", status: "occupied", patient: "Sánchez L.", daysSinceAdmission: 23, phase: "Fase 1" },
+      { id: "108", status: "occupied", patient: "Torres C.", daysSinceAdmission: 56, phase: "Fase 3" },
+      { id: "109", status: "maintenance" },
+      { id: "110", status: "occupied", patient: "Navarro E.", daysSinceAdmission: 89, phase: "Fase 4" },
+      { id: "111", status: "occupied", patient: "Domínguez S.", daysSinceAdmission: 41, phase: "Fase 2" },
+      { id: "112", status: "occupied", patient: "Moreno V.", daysSinceAdmission: 15, phase: "Fase 1" },
+      { id: "113", status: "occupied", patient: "Jiménez F.", daysSinceAdmission: 62, phase: "Fase 3" },
+      { id: "114", status: "occupied", patient: "Alonso D.", daysSinceAdmission: 30, phase: "Fase 2" },
+      { id: "115", status: "reserved" },
+      { id: "116", status: "occupied", patient: "Romero G.", daysSinceAdmission: 50, phase: "Fase 3" },
+    ],
+  },
+  {
+    name: "Planta 2", clinic: "BCN",
+    beds: [
+      { id: "201", status: "occupied", patient: "Díaz H.", daysSinceAdmission: 71, phase: "Fase 3" },
+      { id: "202", status: "occupied", patient: "Hernández I.", daysSinceAdmission: 8, phase: "Fase 1" },
+      { id: "203", status: "available" },
+      { id: "204", status: "occupied", patient: "Muñoz K.", daysSinceAdmission: 44, phase: "Fase 2" },
+      { id: "205", status: "occupied", patient: "Álvarez N.", daysSinceAdmission: 82, phase: "Fase 4" },
+      { id: "206", status: "occupied", patient: "Castro O.", daysSinceAdmission: 19, phase: "Fase 1" },
+      { id: "207", status: "occupied", patient: "Ortega Q.", daysSinceAdmission: 55, phase: "Fase 3" },
+      { id: "208", status: "occupied", patient: "Rubio T.", daysSinceAdmission: 37, phase: "Fase 2" },
+      { id: "209", status: "occupied", patient: "Medina U.", daysSinceAdmission: 63, phase: "Fase 3" },
+      { id: "210", status: "occupied", patient: "Iglesias W.", daysSinceAdmission: 28, phase: "Fase 2" },
+      { id: "211", status: "available" },
+      { id: "212", status: "occupied", patient: "Santos X.", daysSinceAdmission: 75, phase: "Fase 4" },
+      { id: "213", status: "occupied", patient: "Guerrero Y.", daysSinceAdmission: 10, phase: "Fase 1" },
+      { id: "214", status: "occupied", patient: "Reyes Z.", daysSinceAdmission: 48, phase: "Fase 2" },
+    ],
+  },
+  {
+    name: "Planta 3", clinic: "BCN",
+    beds: [
+      { id: "301", status: "occupied", patient: "Molina A.", daysSinceAdmission: 60, phase: "Fase 3" },
+      { id: "302", status: "available" },
+      { id: "303", status: "occupied", patient: "Blanco B.", daysSinceAdmission: 85, phase: "Fase 4" },
+      { id: "304", status: "occupied", patient: "Suárez C.", daysSinceAdmission: 22, phase: "Fase 1" },
+      { id: "305", status: "available" },
+      { id: "306", status: "occupied", patient: "Vega D.", daysSinceAdmission: 42, phase: "Fase 2" },
+      { id: "307", status: "occupied", patient: "Prieto E.", daysSinceAdmission: 70, phase: "Fase 3" },
+      { id: "308", status: "occupied", patient: "Méndez F.", daysSinceAdmission: 33, phase: "Fase 2" },
+      { id: "309", status: "available" },
+      { id: "310", status: "occupied", patient: "León G.", daysSinceAdmission: 58, phase: "Fase 3" },
+      { id: "311", status: "occupied", patient: "Herrera H.", daysSinceAdmission: 14, phase: "Fase 1" },
+      { id: "312", status: "occupied", patient: "Caballero I.", daysSinceAdmission: 46, phase: "Fase 2" },
+    ],
+  },
+  {
+    name: "Ala Norte", clinic: "MLG",
+    beds: [
+      { id: "N-01", status: "occupied", patient: "Ramos J.", daysSinceAdmission: 39, phase: "Fase 2" },
+      { id: "N-02", status: "occupied", patient: "Peña K.", daysSinceAdmission: 72, phase: "Fase 3" },
+      { id: "N-03", status: "occupied", patient: "Flores L.", daysSinceAdmission: 18, phase: "Fase 1" },
+      { id: "N-04", status: "occupied", patient: "Cabrera M.", daysSinceAdmission: 51, phase: "Fase 3" },
+      { id: "N-05", status: "available" },
+      { id: "N-06", status: "occupied", patient: "Campos N.", daysSinceAdmission: 65, phase: "Fase 3" },
+      { id: "N-07", status: "occupied", patient: "Vidal O.", daysSinceAdmission: 27, phase: "Fase 2" },
+      { id: "N-08", status: "occupied", patient: "Aguilar P.", daysSinceAdmission: 80, phase: "Fase 4" },
+      { id: "N-09", status: "occupied", patient: "Pascual Q.", daysSinceAdmission: 11, phase: "Fase 1" },
+      { id: "N-10", status: "occupied", patient: "Giménez R.", daysSinceAdmission: 43, phase: "Fase 2" },
+      { id: "N-11", status: "occupied", patient: "Esteban S.", daysSinceAdmission: 59, phase: "Fase 3" },
+      { id: "N-12", status: "available" },
+      { id: "N-13", status: "occupied", patient: "Mora T.", daysSinceAdmission: 36, phase: "Fase 2" },
+      { id: "N-14", status: "occupied", patient: "Serrano U.", daysSinceAdmission: 76, phase: "Fase 4" },
+      { id: "N-15", status: "occupied", patient: "Cano V.", daysSinceAdmission: 20, phase: "Fase 1" },
+      { id: "N-16", status: "occupied", patient: "Delgado W.", daysSinceAdmission: 53, phase: "Fase 3" },
+      { id: "N-17", status: "reserved" },
+      { id: "N-18", status: "occupied", patient: "Carrasco X.", daysSinceAdmission: 31, phase: "Fase 2" },
+    ],
+  },
+  {
+    name: "Ala Sur", clinic: "MLG",
+    beds: [
+      { id: "S-01", status: "occupied", patient: "Cortés Y.", daysSinceAdmission: 68, phase: "Fase 3" },
+      { id: "S-02", status: "occupied", patient: "Marín Z.", daysSinceAdmission: 25, phase: "Fase 1" },
+      { id: "S-03", status: "available" },
+      { id: "S-04", status: "occupied", patient: "Cruz A2.", daysSinceAdmission: 47, phase: "Fase 2" },
+      { id: "S-05", status: "available" },
+      { id: "S-06", status: "occupied", patient: "Gallego B2.", daysSinceAdmission: 83, phase: "Fase 4" },
+      { id: "S-07", status: "available" },
+      { id: "S-08", status: "occupied", patient: "Calvo C2.", daysSinceAdmission: 16, phase: "Fase 1" },
+      { id: "S-09", status: "occupied", patient: "Nieto D2.", daysSinceAdmission: 54, phase: "Fase 3" },
+      { id: "S-10", status: "available" },
+      { id: "S-11", status: "occupied", patient: "Pardo E2.", daysSinceAdmission: 40, phase: "Fase 2" },
+      { id: "S-12", status: "occupied", patient: "Gil F2.", daysSinceAdmission: 69, phase: "Fase 3" },
+      { id: "S-13", status: "available" },
+      { id: "S-14", status: "occupied", patient: "Sierra G2.", daysSinceAdmission: 32, phase: "Fase 2" },
+      { id: "S-15", status: "occupied", patient: "Fuentes H2.", daysSinceAdmission: 57, phase: "Fase 3" },
+      { id: "S-16", status: "available" },
+      { id: "S-17", status: "occupied", patient: "Lozano I2.", daysSinceAdmission: 21, phase: "Fase 1" },
+      { id: "S-18", status: "maintenance" },
+    ],
+  },
+];
+
+// OCUPACIÓN: Occupancy trend (12 weeks)
+export const occupancyTrend = [
+  { week: "S-11", bcn: 76, mlg: 68, target: 85 },
+  { week: "S-10", bcn: 77, mlg: 69, target: 85 },
+  { week: "S-9", bcn: 78, mlg: 70, target: 85 },
+  { week: "S-8", bcn: 78, mlg: 71, target: 85 },
+  { week: "S-7", bcn: 79, mlg: 71, target: 85 },
+  { week: "S-6", bcn: 80, mlg: 72, target: 85 },
+  { week: "S-5", bcn: 80, mlg: 73, target: 85 },
+  { week: "S-4", bcn: 79, mlg: 72, target: 85 },
+  { week: "S-3", bcn: 81, mlg: 74, target: 85 },
+  { week: "S-2", bcn: 82, mlg: 76, target: 85 },
+  { week: "S-1", bcn: 83, mlg: 77, target: 85 },
+  { week: "Hoy", bcn: 84, mlg: 78, target: 85 },
+];
+
+// FINANZAS: Revenue actual vs plan (monthly)
+export const revenueVsPlan = [
+  { month: "Nov", real: 520, plan: 540 },
+  { month: "Dic", real: 545, plan: 560 },
+  { month: "Ene", real: 580, plan: 580 },
+  { month: "Feb", real: 610, plan: 600 },
+  { month: "Mar", real: 650, plan: 640 },
+  { month: "Abr", real: 680, plan: 660 },
+];
+
+// FINANZAS: Accounts receivable aging
+export const receivablesAging = [
+  { bucket: "Al día", amount: 180, count: 42, color: "#10b981" },
+  { bucket: "1-15 días", amount: 95, count: 18, color: "#f59e0b" },
+  { bucket: "16-30 días", amount: 48, count: 8, color: "#f97316" },
+  { bucket: ">30 días", amount: 42, count: 3, color: "#ef4444" },
+];
+
+// FINANZAS: Cash flow monthly
+export const cashFlow = [
+  { month: "Ene", ingresos: 580, gastos: 470, neto: 110 },
+  { month: "Feb", ingresos: 610, gastos: 485, neto: 125 },
+  { month: "Mar", ingresos: 650, gastos: 510, neto: 140 },
+  { month: "Abr", ingresos: 680, gastos: 530, neto: 150 },
+  { month: "May (P)", ingresos: 710, gastos: 545, neto: 165 },
+  { month: "Jun (P)", ingresos: 740, gastos: 555, neto: 185 },
+];
+
+// CRECIMIENTO: Pipeline funnel
+export const pipelineFunnel = [
+  { stage: "Primer contacto", count: 19, value: 380, conversion: "100%" },
+  { stage: "Evaluación clínica", count: 14, value: 280, conversion: "74%" },
+  { stage: "Propuesta enviada", count: 8, value: 160, conversion: "42%" },
+  { stage: "Negociación", count: 6, value: 120, conversion: "32%" },
+  { stage: "Cierre", count: 2, value: 40, conversion: "11%" },
+];
+
+// CRECIMIENTO: Leads by source
+export const leadsBySource = [
+  { source: "Web / orgánico", count: 14, conversion: 28, color: "#3b82f6" },
+  { source: "Derivación clínica", count: 11, conversion: 42, color: "#10b981" },
+  { source: "Referral familiar", count: 9, conversion: 35, color: "#8b5cf6" },
+  { source: "Google Ads", count: 8, conversion: 22, color: "#f59e0b" },
+  { source: "Redes sociales", count: 5, conversion: 18, color: "#ec4899" },
+];
+
+// CRECIMIENTO: Conversion trend (weekly)
+export const conversionTrend = [
+  { week: "S-8", rate: 28 },
+  { week: "S-7", rate: 29 },
+  { week: "S-6", rate: 30 },
+  { week: "S-5", rate: 29 },
+  { week: "S-4", rate: 31 },
+  { week: "S-3", rate: 32 },
+  { week: "S-2", rate: 33 },
+  { week: "S-1", rate: 33 },
+  { week: "Hoy", rate: 34 },
+];
+
+// BACKOFFICE: Automation by process
+export const automationByProcess = [
+  { process: "Facturación", automated: 92, manual: 8 },
+  { process: "Reconciliación", automated: 94, manual: 6 },
+  { process: "Informes", automated: 88, manual: 12 },
+  { process: "Comunicación familias", automated: 85, manual: 15 },
+  { process: "Admisiones", automated: 65, manual: 35 },
+  { process: "Turnos", automated: 60, manual: 40 },
+  { process: "Compliance", automated: 55, manual: 45 },
+];
+
+// BACKOFFICE: Savings over time
+export const savingsOverTime = [
+  { month: "Ene", savings: 18 },
+  { month: "Feb", savings: 24 },
+  { month: "Mar", savings: 26 },
+  { month: "Abr", savings: 28 },
+  { month: "May (P)", savings: 30 },
+  { month: "Jun (P)", savings: 32 },
+];
+
+// MULTICLINICA: P&L consolidado
+export const consolidatedPL = [
+  { line: "Ingresos", bcn: 420, mlg: 260, total: 680 },
+  { line: "Costes personal", bcn: -168, mlg: -120, total: -288 },
+  { line: "Costes operativos", bcn: -98, mlg: -72, total: -170 },
+  { line: "Costes directos", bcn: -65, mlg: -49, total: -114 },
+  { line: "EBITDA", bcn: 89, mlg: 19, total: 108 },
+];
+
 // ─── Chart data ──────────────────────────────────────────────────
 
 export const weeklyForecast = [
