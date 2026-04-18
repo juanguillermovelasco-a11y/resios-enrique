@@ -27,7 +27,7 @@ export const roadmapSteps: RoadmapStep[] = [
     description:
       "Sentarse con los 5 roles clave (finanzas, crecimiento, ocupación, back office, dirección) y validar: ¿qué datos ven hoy? ¿en qué herramientas? ¿qué les falta? ¿qué decisiones toman con esos datos? Esto define qué pantallas y datos son reales vs lo que asumimos en la demo.",
     deliverables: [
-      "5 entrevistas realizadas: Ana (finanzas), Marta (crecimiento), Carlos (operaciones), Patricia (back office), Enrique (dirección)",
+      "5 entrevistas realizadas: finanzas, crecimiento, operaciones, back office y dirección de grupo",
       "Documento de requisitos validado por cada rol: qué ven, qué necesitan, qué sobra",
       "Mapa de fuentes de datos reales: qué vive en Sage, qué en HubSpot, qué en Excel, qué en la cabeza de alguien",
     ],
@@ -73,11 +73,11 @@ export const roadmapSteps: RoadmapStep[] = [
     duration: "2 semanas",
     week: "S5–S6",
     description:
-      "Primera integración real. Conectamos HubSpot para que los datos de leads, pipeline y conversiones se sincronicen con ResiOS. Marta (crecimiento) es la primera en ver datos reales en su pantalla en vez de datos de demo. Sincronización cada 15 minutos.",
+      "Primera integración real. Conectamos HubSpot para que los datos de leads, pipeline y conversiones se sincronicen con ResiOS. El rol de crecimiento es el primero en ver datos reales en su pantalla en vez de datos de demo. Sincronización cada 15 minutos.",
     deliverables: [
       "Rol de Crecimiento funcionando con datos reales de HubSpot: leads, etapas, valores, fechas",
       "Sincronización bidireccional: lo que se actualiza en HubSpot aparece en ResiOS y viceversa",
-      "Validación con Marta: ¿los datos coinciden? ¿falta algo? ¿sobra algo?",
+      "Validación con el equipo de crecimiento: ¿los datos coinciden? ¿falta algo? ¿sobra algo?",
     ],
     icon: "TrendingUp",
     status: "upcoming",
@@ -105,7 +105,7 @@ export const roadmapSteps: RoadmapStep[] = [
     duration: "1 semana",
     week: "S9–S10",
     description:
-      "Hasta ahora cualquiera puede ver todo. Aquí montamos autenticación (login con email/contraseña o Google) y permisos por rol. Patricia solo ve back office, Marta solo ve crecimiento, Enrique ve todo. Esto es crítico antes de meter datos reales de pacientes — sin esto no se puede usar en producción.",
+      "Hasta ahora cualquiera puede ver todo. Aquí montamos autenticación (login con email/contraseña o Google) y permisos por rol. El controller solo ve back office, crecimiento solo ve su pipeline, Enrique ve todo. Esto es crítico antes de meter datos reales de pacientes — sin esto no se puede usar en producción.",
     deliverables: [
       "Login funcional con email o Google Workspace de CITA",
       "5 roles configurados con permisos: cada persona ve solo sus pantallas y datos",
@@ -121,7 +121,7 @@ export const roadmapSteps: RoadmapStep[] = [
     duration: "2 semanas",
     week: "S10–S11",
     description:
-      "El copiloto que hoy responde con texto fijo pasa a responder con datos reales. Cuando Ana pregunta '¿cuánto tenemos pendiente de cobro?' la IA consulta Sage y responde con el número real. Usamos la API de Claude (Anthropic). Coste estimado: 100-300€/mes dependiendo del uso.",
+      "El copiloto que hoy responde con texto fijo pasa a responder con datos reales. Cuando finanzas pregunta '¿cuánto tenemos pendiente de cobro?' la IA consulta Sage y responde con el número real. Usamos la API de Claude (Anthropic). Coste estimado: 100-300€/mes dependiendo del uso.",
     deliverables: [
       "Copiloto respondiendo preguntas con datos reales de la base de datos para los 5 roles",
       "Sugerencias y alertas generadas dinámicamente (no texto fijo): cobros vencidos, baja ocupación, leads sin contactar",
@@ -260,7 +260,7 @@ export const roleViews: Record<RoleKey, RoleView> = {
   finanzas: {
     key: "finanzas",
     label: "Finanzas",
-    persona: "Ana Torralba",
+    persona: "Director/a Financiero",
     personaRole: "Directora Financiera",
     icon: "DollarSign",
     description:
@@ -302,7 +302,7 @@ export const roleViews: Record<RoleKey, RoleView> = {
   crecimiento: {
     key: "crecimiento",
     label: "Crecimiento",
-    persona: "Marta Llopis",
+    persona: "Director/a de Crecimiento",
     personaRole: "Directora de Crecimiento",
     icon: "TrendingUp",
     description:
@@ -344,7 +344,7 @@ export const roleViews: Record<RoleKey, RoleView> = {
   ocupacion: {
     key: "ocupacion",
     label: "Ocupación y camas",
-    persona: "Carlos Mendoza",
+    persona: "Gestor/a Operativo",
     personaRole: "Gestor Operativo",
     icon: "BedDouble",
     description:
@@ -385,7 +385,7 @@ export const roleViews: Record<RoleKey, RoleView> = {
   backoffice: {
     key: "backoffice",
     label: "Back Office",
-    persona: "Patricia Vidal",
+    persona: "Controller / Administración",
     personaRole: "Controller / Administración",
     icon: "Settings",
     description:
@@ -954,7 +954,7 @@ export interface CopilotData {
 
 export const copilotByRole: Record<RoleKey, CopilotData> = {
   finanzas: {
-    greeting: "Hola Ana. Tienes 3 facturas vencidas por 42k€ y la reconciliación de marzo pendiente de cerrar. ¿En qué te ayudo?",
+    greeting: "Tienes 3 facturas vencidas por 42k€ y la reconciliación de marzo pendiente de cerrar. ¿En qué te ayudo?",
     suggestions: [
       { text: "Factura F-2026-0385 (Familia Rodríguez, 18k€) lleva 36 días vencida. 2 recordatorios enviados sin respuesta. Siguiente paso: contactar directamente o escalar a dirección.", type: "alert", actions: [{ label: "Marcar llamada hecha", variant: "primary" }, { label: "Ver historial pagos", variant: "secondary" }] },
       { text: "Cobro recibido de 4.800€ sin factura asignada. Por importe y concepto coincide con Familia Ramírez (F-2026-0398). Confirmar para cerrar.", type: "action", actions: [{ label: "Confirmar asignación", variant: "primary" }, { label: "Revisar manualmente", variant: "secondary" }] },
@@ -971,7 +971,7 @@ export const copilotByRole: Record<RoleKey, CopilotData> = {
     ],
   },
   crecimiento: {
-    greeting: "Hola Marta. Tienes 2 decisiones de cierre pendientes esta semana y 3 leads sin contacto desde hace más de 5 días.",
+    greeting: "Tienes 2 decisiones de cierre pendientes esta semana y 3 leads sin contacto desde hace más de 5 días.",
     suggestions: [
       { text: "Lead Familia García lleva 6 días sin contacto — 20k€/mes en juego. Están en fase de negociación final, decisión esta semana.", type: "alert", actions: [{ label: "Agendar llamada", variant: "primary" }, { label: "Ver ficha en HubSpot", variant: "secondary" }] },
       { text: "Derivación Hospital Clínic: 2 pacientes nuevos. Es el canal con mayor conversión (42%). Requiere respuesta antes de mañana.", type: "action", actions: [{ label: "Preparar propuesta", variant: "primary" }, { label: "Ver historial derivaciones", variant: "secondary" }] },
@@ -988,7 +988,7 @@ export const copilotByRole: Record<RoleKey, CopilotData> = {
     ],
   },
   ocupacion: {
-    greeting: "Hola Carlos. 15 camas disponibles hoy (8 BCN + 7 MLG). 3 ingresos confirmados esta semana, 1 alta el viernes.",
+    greeting: "15 camas disponibles hoy (8 BCN + 7 MLG). 3 ingresos confirmados esta semana, 1 alta el viernes.",
     suggestions: [
       { text: "Ingreso confirmado lunes (BCN): paciente pre-asignado a hab. 203 (Planta 2). Documentación completa, dieta especial: sin gluten. Pendiente confirmar con cocina.", type: "action", actions: [{ label: "Confirmar asignación", variant: "primary" }, { label: "Cambiar habitación", variant: "secondary" }] },
       { text: "Planta 3 BCN al 75% — 3 camas libres + 1 alta viernes = 4 libres. Hay 2 ingresos del pipeline previstos para la próxima semana.", type: "alert", actions: [{ label: "Ver ingresos previstos", variant: "primary" }] },
@@ -1005,7 +1005,7 @@ export const copilotByRole: Record<RoleKey, CopilotData> = {
     ],
   },
   backoffice: {
-    greeting: "Hola Patricia, soy tu copiloto de controlling. Tienes 3 facturas vencidas por 30.5k€ y un pago a proveedor con retraso. Nóminas de abril procesadas.",
+    greeting: "Tienes 3 facturas vencidas por 30.5k€ y un pago a proveedor con retraso. Nóminas de abril procesadas.",
     suggestions: [
       { text: "Familia Rodríguez acumula 36 días de impago (18k€). Es la factura vencida más antigua. Siguiente paso: contacto directo o derivar a gestión de cobro.", type: "alert", actions: [{ label: "Enviar aviso formal", variant: "primary" }, { label: "Ver histórico pagos", variant: "secondary" }] },
       { text: "Pago a Aramark MLG con 5 días de retraso (8.2k€). Proveedor contactó ayer preguntando. Requiere tu autorización para procesar.", type: "alert", actions: [{ label: "Autorizar pago", variant: "primary" }, { label: "Contactar Aramark", variant: "secondary" }] },
@@ -1026,7 +1026,7 @@ export const copilotByRole: Record<RoleKey, CopilotData> = {
     suggestions: [
       { text: "MLG Ala Sur al 67% — por debajo de plan. El equipo propone concentrar ingresos en Ala Norte hasta llenarla. ¿Apruebas el cambio de estrategia?", type: "alert", actions: [{ label: "Aprobar cambio", variant: "primary" }, { label: "Pedir más datos", variant: "secondary" }] },
       { text: "Due diligence activa en 2 clínicas en Andalucía. Informe preliminar listo para tu revisión. Ticket medio: 7-9M€.", type: "action", actions: [{ label: "Ver informe", variant: "primary" }, { label: "Agendar call con equipo", variant: "secondary" }] },
-      { text: "42k€ en facturas vencidas. Si no se resuelve esta semana, impacta cash flow de mayo. Patricia pide tu intervención con Familia Rodríguez (18k€).", type: "alert", actions: [{ label: "Llamar a familia", variant: "primary" }] },
+      { text: "42k€ en facturas vencidas. Si no se resuelve esta semana, impacta cash flow de mayo. Back office pide tu intervención con Familia Rodríguez (18k€).", type: "alert", actions: [{ label: "Llamar a familia", variant: "primary" }] },
     ],
     suggestedQuestions: [
       "¿Cuándo alcanza MLG el break-even operativo?",
