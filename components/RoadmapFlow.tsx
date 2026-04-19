@@ -16,6 +16,9 @@ import {
   Circle,
   ChevronLeft,
   ChevronRight,
+  Layers,
+  HelpCircle,
+  ShieldAlert,
 } from "lucide-react";
 import { roadmapSteps, type RoadmapStep } from "@/lib/mock-data";
 
@@ -159,8 +162,9 @@ export function RoadmapFlow() {
           </p>
 
           {/* Deliverables — stack on mobile */}
-          <div>
-            <h4 className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-400 mb-3">
+          <div className="mb-6 sm:mb-8">
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-400 mb-3 flex items-center gap-2">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
               Entregables clave
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
@@ -173,6 +177,85 @@ export function RoadmapFlow() {
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                   </div>
                   <span className="text-[13px] sm:text-sm text-slate-700 leading-relaxed">{d}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Stack técnico */}
+          <div className="mb-6 sm:mb-8">
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-400 mb-3 flex items-center gap-2">
+              <Layers className="w-3.5 h-3.5 text-navy-500" />
+              Stack técnico
+            </h4>
+            <div className="flex flex-wrap gap-2">
+              {activeStep.stack.map((s, i) => (
+                <span
+                  key={i}
+                  className="inline-flex items-center px-3 py-1.5 rounded-lg border border-navy-100 bg-navy-50 text-[12px] font-medium text-navy-700"
+                >
+                  {s}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Decisiones que necesitas tomar */}
+          <div className="mb-6 sm:mb-8">
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-400 mb-3 flex items-center gap-2">
+              <HelpCircle className="w-3.5 h-3.5 text-accent-500" />
+              Decisiones que necesitas tomar
+            </h4>
+            <div className="space-y-2">
+              {activeStep.decisions.map((d, i) => (
+                <div
+                  key={i}
+                  className="flex items-start gap-3 rounded-lg border-l-[3px] border-l-accent-400 bg-accent-50/40 px-3 py-2.5"
+                >
+                  <span className="text-[12px] font-semibold text-accent-600 shrink-0 mt-0.5">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-[13px] sm:text-sm text-slate-700 leading-relaxed">{d}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Riesgos y plan B */}
+          <div>
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-400 mb-3 flex items-center gap-2">
+              <ShieldAlert className="w-3.5 h-3.5 text-rose-500" />
+              Riesgos y plan B
+            </h4>
+            <div className="space-y-2.5">
+              {activeStep.risks.map((r, i) => (
+                <div
+                  key={i}
+                  className="rounded-xl border border-rose-100 bg-rose-50/30 p-3 sm:p-4"
+                >
+                  <div className="flex items-start gap-3 mb-1.5">
+                    <div className="w-6 h-6 rounded-full bg-rose-100 flex items-center justify-center shrink-0 mt-0.5">
+                      <ShieldAlert className="w-3.5 h-3.5 text-rose-600" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-[10px] font-semibold uppercase tracking-wide text-rose-600 mb-0.5">
+                        Riesgo
+                      </div>
+                      <p className="text-[13px] sm:text-sm text-navy-900 font-medium leading-snug">
+                        {r.risk}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 ml-9">
+                    <div className="flex-1">
+                      <div className="text-[10px] font-semibold uppercase tracking-wide text-emerald-600 mb-0.5">
+                        Mitigación
+                      </div>
+                      <p className="text-[13px] sm:text-sm text-slate-600 leading-relaxed">
+                        {r.mitigation}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
